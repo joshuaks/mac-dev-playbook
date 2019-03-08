@@ -1,0 +1,6 @@
+---
+- name: Create symbolic link for Brewfile
+  file:
+    src: ~/.Brewfile
+    dest: ~/Brewfile
+    state: link

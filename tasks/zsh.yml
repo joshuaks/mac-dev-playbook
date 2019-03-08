@@ -1,0 +1,32 @@
+---
+- name: install oh-my-zsh
+  git:
+    repo: https://github.com/robbyrussell/oh-my-zsh.git
+    dest: ~/Documents/Developer/Repositories/oh-my-zsh.git
+    version: master
+
+- name: install oh-my-zsh dracula theme
+  git:
+    repo: https://github.com/dracula/zsh.git
+    dest: ~/Documents/Developer/Repositories/dracula.zsh.git
+    version: master
+
+- name: symlink dracula theme
+  file:
+    src: ~/Documents/Developer/Repositories/dracula.zsh.git/dracula.zsh-theme
+    dest: "{{ lookup('env','ZSH') }}/themes/dracula.zsh-theme"
+    state: link
+
+- name: install oh-my-tmux
+  git:
+    repo: https://github.com/gpakosz/.tmux.git
+    dest: ~/Documents/Developer/Repositories/oh-my-tmux.git
+    version: master
+
+- name: symlink oh-my-tmux config
+  file:
+    src: ~/Documents/Developer/Repositories/oh-my-tmux.git/.tmux.conf
+    dest: "{{ lookup('env','HOME') }}/.tmux.conf"
+    state: link
+
+    #https://github.com/isacikgoz/gitbatch/releases/latest

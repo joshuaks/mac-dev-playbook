@@ -10,9 +10,11 @@
       with_fileglob:
         - "{{ playbook_dir }}/config.yml"
       tags: ['always']
+    - include_tasks: tasks/disk.yml
 
   roles:
     - role: geerlingguy.homebrew
+      when: configure_homebrew
       tags: ['homebrew']
     - role: geerlingguy.dotfiles
       when: configure_dotfiles
@@ -22,7 +24,12 @@
       tags: ['mas']
 
   tasks:
+
     - include_tasks: tasks/ansible-setup.yml
+
+    - include_tasks: tasks/dock.yml
+
+    - include_tasks: tasks/nvim.yml
 
     - include_tasks: tasks/sudoers.yml
       when: configure_sudoers
@@ -37,8 +44,14 @@
     - include_tasks: tasks/extra-packages.yml
       tags: ['extra-packages']
 
+    - name: configure zsh
+      include_tasks: tasks/zsh.yml
+      when: configure_zsh
+      tags: ['zsh']
+
     - name: Run configured post-provision ansible task files.
       include_tasks: "{{ outer_item }}"
       loop_control:
         loop_var: outer_item
       with_fileglob: "{{ post_provision_tasks|default(omit) }}"
+
