@@ -29,6 +29,10 @@
 
     - include_tasks: tasks/dock.yml
 
+    - include_tasks: tasks/homebrew-update.yml
+
+    - include_tasks: tasks/homebrew-clean.yml
+
     - include_tasks: tasks/nvim.yml
 
     - include_tasks: tasks/sudoers.yml
