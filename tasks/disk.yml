@@ -4,3 +4,9 @@
     src: ~/.Brewfile
     dest: ~/Brewfile
     state: link
+
+- name: clone dotfiles repo
+  git:
+    repo: git@github.com:joshuaks/dotfiles.git
+    dest: ~/Documents/Developer/Repositories/dotfiles.git
+    version: development
