@@ -1,0 +1,44 @@
+---
+
+################################################################################
+## General UI/UX                                                               #
+################################################################################
+- name: Set sidebar icon size to small
+  command: defaults write NSGlobalDomain NSTableViewDefaultSizeMode -int 1
+
+- name: Automatically quit printer app once the print jobs complete
+  command: defaults write com.apple.print.PrintingPrefs "Quit When Finished" -bool true
+
+- name: Disable the “Are you sure you want to open this application?” dialog
+  command:  defaults write com.apple.LaunchServices LSQuarantine -bool false
+
+- name: Remove duplicates in the “Open With” menu (also see `lscleanup` alias)
+  command: /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -domain local -domain system -domain user
+
+- name: Disable the crash reporter
+  command:  defaults write com.apple.CrashReporter DialogType -string "none"
+
+- name: Set Help Viewer windows to non-floating mode
+  command: defaults write com.apple.helpviewer DevMode -bool true
+
+- name: Restart automatically if the computer freezes
+  command: systemsetup -setrestartfreeze on
+
+- name: Disable automatic capitalization as it’s annoying when typing code
+  command: defaults write NSGlobalDomain NSAutomaticCapitalizationEnabled -bool false
+
+- name: Disable smart dashes as they’re annoying when typing code
+  command:  defaults write NSGlobalDomain NSAutomaticDashSubstitutionEnabled -bool false
+
+- name: Disable automatic period substitution as it’s annoying when typing code
+  command: defaults write NSGlobalDomain NSAutomaticPeriodSubstitutionEnabled -bool false
+
+- name: Disable smart quotes as they’re annoying when typing code
+  command: defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool false
+
+- name: Disable auto-correct
+  command: defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
+
+################################################################################
+## SSD-specific tweaks                                                         #
+################################################################################

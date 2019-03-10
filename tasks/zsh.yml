@@ -29,4 +29,3 @@
     dest: "{{ lookup('env','HOME') }}/.tmux.conf"
     state: link
 
-    #https://github.com/isacikgoz/gitbatch/releases/latest
