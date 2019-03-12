@@ -92,52 +92,52 @@ dockitems_to_remove:
 
 dockitems_to_persist: []
 
-m_cli_configs:
-  - bluetooth:
-    - is_on: true
-  - dns:
-    - is_flush: true
-  - dock:
-    - is_change_show_delay: false
-    - show_delay: 0
-    - is_autohide: YES
-    - is_magnification: NO
-    - position: left
-    - is_add_blank_space: true
-    - is_add_recent_items: true
-    - is_remove_all_items: true
-  - finder:
-    - is_show_hidden_files: NO
-    - is_show_file_extensions: YES
-    - is_show_desktop: NO
-    - is_show_path: YES
-  - firewall:
-    - is_enable: enable
-  - flightmode:
-    - is_on: off
-  - gatekeeper:
-    - is_enable: enable
-  - hostname:
-    - name: josh-rmbp-13.local
-  - ntp:
-    - is_enable: enable
-    - time_server: time.apple.com
-  - notification_center:
-    - is_enable: YES
-  - screensaver:
-    - is_ask_for_password: YES
-  - services:
-    - to_load: []
-    - to_unload: []
-  - timezone:
-    - name: America/New_York
-  - trash:
-    - is_empty: true
-  - updates:
-    - is_install_all: true
-  - wallpaper:
-    - is_set_wallpaper: false
-    - filepath: /dev/null
-  - wifi:
-    - is_wifi_on: on
-
+mcli_configs:
+  bluetooth:
+    is_on: true
+  dns:
+    is_flush: true
+  dock:
+    is_change_show_delay: false
+    show_delay: 0
+    is_autohide: true
+    is_magnification: false
+    position: left
+    is_add_blank_space: false
+    is_add_recent_items: false
+    is_remove_all_items: true
+  finder:
+    is_show_hidden_files: false
+    is_show_file_extensions: true
+    is_show_desktop: false
+    is_show_path: true
+  firewall:
+    is_enable: true
+  flightmode:
+    is_on: false
+  gatekeeper:
+    is_enable: true
+  hostname:
+    name: josh-rmbp-13.local
+  ntp:
+    is_enable: true
+    time_server: time.apple.com
+  notification_center:
+    is_enable: true
+  screensaver:
+    is_ask_for_password: true
+  services:
+    to_load: []
+    to_unload: []
+  timezone:
+    name: America/New_York
+  trash:
+    is_empty: true
+  updates:
+    is_install_all: true
+    #wallpaper:
+      #is_set_wallpaper: false
+      #filepath: /dev/null
+  wifi:
+    is_on: true
+      #
