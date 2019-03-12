@@ -1,5 +1,144 @@
 ---
 
+## m-cli: battery #################################################
+
+
+## m-cli: bloothtooth #################################################
+- name: Bluebooth: Set on or off (true/false)
+  command: "m bluetooth {{ m_cli.bluetooth.is_on }}"
+
+## m-cli: disk #################################################
+#
+
+## m-cli: dns #################################################
+- name: Flush DNS (true/false)
+  command: "m dns flush"
+  when: "{{ m_cli.dns.is_flush }}"
+
+
+## m-cli: dock #################################################
+- name: Dock: Show delay
+  command: "m dock showdelay {{ m_cli.dock.show_delay }}"
+  when: "{{ m_cli.dock.is_change_show_delay }}"
+
+- name: Dock: Show or hide (YES/NO)
+  command: "m dock autohide {{ m_cli.dock.is_autohide }}"
+
+- name: Dock: Enable or disable magnification (YES/NO)
+  command: "m dock magnification {{ m_cli.dock.is_magnification }}"
+
+- name: Dock: Set position (BOTTOM/LEFT/RIGHT)
+  command: "m dock position {{ m_cli.dock.position }}"
+
+- name: Dock: Add blank space
+  command: m dock addblankspace
+  when: "{{ m_cli.dock.is_add_blank_space }}"
+
+- name: Dock: Add recent items
+  command: m dock addrecentitems
+  when: "{{ m_cli.dock.is_add_recent_items }}"
+
+- name: Dock: Remove all items
+  command: m dock prune
+  when: "{{ is_remove_all_items }}"
+
+## m-cli: dir #################################################
+
+## m-cli: finder #################################################
+- name: Finder: Show or hide hidden files (YES/NO)
+  command: "m finder showhiddenfiles {{ m_mcli.finder.is_show_hidden_files }}"
+
+- name: Finder: Show or hide file extensions (YES/NO)
+  command: "m finder showextensions {{ m_mcli.finder.is_show_file_extensions }}"
+
+- name: Finder: Show the Desktop (YES/NO)
+  command: "m finder showdesktop {{ m_mcli.finder.is_show_desktop }}"
+
+- name: Finder: Show path (YES/NO)
+  command: "m finder showpath {{ m_mcli.finder.is_show_path }}"
+
+## m-cli: firewall #################################################
+- name: Firewall: Enable or disable (enable/disable)
+  command: "m firewall {{ m_mcli.firewall.is_enable}}"
+
+## m-cli: flightmode #################################################
+- name: Flightmode: Enable or disable (on/off)
+  command: "m flightmode {{ m_cli.flightmode.is_on }}"
+
+## m-cli: gatekeeper #################################################
+- name: GateKeeper: Enable or disable service (enable/disable)
+  command: "m firewall {{ m_mcli.gatekeeper.is_enable }}"
+
+  #- name: GateKeeper: Enable rules
+  #  command: "m firewall {{ m_mcli.gatekeeper.}}"
+  #
+  #- name: GateKeeper: Disable rules
+  #  command: "m firewall {{ m_mcli.gatekeeper.}}"
+  #
+  #- name: GateKeeper: Create rules
+  #  command: "m firewall {{ m_mcli.gatekeeper.}}"
+
+## m-cli: groups #################################################
+#- name: Groups: Add user to group
+#  command: "m group {{ m_cli.groups. }}"
+#
+#- name: Groups: Remove user from group
+#  command: "m group {{ m_cli.groups. }}"
+
+## m-cli: hostname #################################################
+- name: Hostname: Set hostname
+  command: "m hostname {{ m_cli.hostname.name }}"
+
+## m-cli: ntp #################################################
+- name: NTP: Set status (enable/disable)
+  command: "m ntp {{ m_cli.ntp.is_enable }}"
+
+## m-cli: notification center #################################################
+- name: Notification Center: Enable or disable (YES/NO)
+  command: "m ntp {{ m_cli.notification_center.is_enable }}"
+
+## m-cli: screensaver #################################################
+- name: Screensaver: Ask for password (YES/NO)
+  command: "m screensaver {{ m_cli.screensaver.is_ask_for_password }}"
+
+## m-cli: services #################################################
+- name: Services: Load services
+  command: "m service {{ item }}"
+  with: "{{ m_cli.services.to_load }}"
+
+- name: Services: Unload services
+  command: "m service {{ item }}"
+  with: "{{ M_cli.services.to_unload }}"
+
+## m-cli: timezone #################################################
+- name: Timezone: Set timezone
+  command: "m timezone {{ m_cli.timezone.name }}"
+
+## m-cli: trash #################################################
+- name: Trash: Empty tash
+  command: "m trash clean"
+  when: "{{ m_cli.trash.is_empty }}"
+
+
+## m-cli: updates #################################################
+- name: Updates: Is install all
+  command: "m update install all"
+  when: "{{ m_cli.updates.is_install_all }}"
+
+## m-cli: volume #################################################
+
+## m-cli: vpn #################################################
+#
+## m-cli: set wallpaper #################################################
+- name: Wallpaper: Set
+  command: "m wallpaper {{ m_cli.wallpaper.filepath }}"
+  when: "{{ m_cli.wallpaper.is_set_wallpaper }}"
+
+## m-cli: Wifi #################################################
+- name: Wifi: Is on (on/off)
+  command: "m wifi {{ m_cli.wifi.is_on }}"
+
+
 ################################################################################
 ## General UI/UX                                                               #
 ################################################################################
