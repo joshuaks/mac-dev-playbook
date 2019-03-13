@@ -141,3 +141,37 @@ mcli_configs:
   wifi:
     is_on: true
       #
+defaults_write:
+  general:
+    is_sidebar_icon_size_small: true
+    is_quit_printer_app_when_done: true
+    is_are_you_sure_app_dialog: false
+    is_help_viewer_non_floating: true
+    is_restart_on_system_freeze: true
+    is_auto_capitalization: false
+    is_smart_dashes: false
+    is_auto_period_substitution: false
+    is_smart_quotes: false
+    is_autocorrect: false
+    is_enable_key_repeat: true
+  finder:
+    new_finder_window_location: ~/Documents
+    desktop:
+      is_show_external_hard_drives: false
+      is_show_hard_drives: false
+      is_show_mounted_servers: false
+      is_show_removable_media: false
+    is_keep_folders_on_top: true
+    is_file_extension_change_warning: false
+    is_springload_directories: true
+    is_delay_springload_directories: true
+    is_open_finder_on_volume_mount: true
+    is_empty_tash_warning: true
+    show_directories: [ "/Volumes" ]
+    hide_directories: []
+    file_info_pane:
+      general: true
+      open_with: false
+      sharing_and_permissions: false
+
+  
