@@ -98,8 +98,7 @@ mcli_configs:
   dns:
     is_flush: true
   dock:
-    is_change_show_delay: false
-    show_delay: 0
+      #show_delay: 0
     is_autohide: true
     is_magnification: false
     position: left
@@ -128,7 +127,9 @@ mcli_configs:
     is_ask_for_password: true
   services:
     to_load: []
-    to_unload: []
+    to_unload: [
+      "/System/Library/LaunchAgents/com.apple.gamed.plist"
+    ]
   timezone:
     name: America/New_York
   trash:
@@ -173,5 +174,68 @@ defaults_write:
       general: true
       open_with: false
       sharing_and_permissions: false
+  dock:
+    icon_size: 16
+    minimize_effect: scale
+    is_minimize_to_app_icon: true
+    is_springload: true
+    is_show_indicator_lights: false
+    is_show_open_apps_only: true
+    is_animate_opening_applications: true
+    is_mission_control_group_apps: false
+    is_disable_dashboard: true
+    is_show_dashboard_as_space: false
+    is_hidden_apps_translucent: true
+    is_launchpad_gesture: false
+  privacy:
+    is_universal_search: false
+    is_suppress_search_suggestions: true
+  safari:
+    is_show_full_address: false
+    is_open_safe_files: false
+    is_show_favorites_bar: false
+    is_show_sidebar_in_topsites: true
+    is_debug_menu: false
+    is_find_on_page_matches_word_starts_only: false # contains
+    is_develop_menu: true
+    is_autofill:
+      contacts: false
+      passwords: false
+      credit_cards: false
+      misc_forms: false
+    is_warn_about_fraudulent_sites: true
+    is_plugins: true
+    is_java: false
+    is_block_popups: true
+    is_autoplay_videos: false
+    is_do_not_track: true
+    is_update_extensions_automatically: true
+  mail:
+    is_addresses_include_name_on_pasteboard: false
+    is_inline_attachments: false
+  terminal:
+    is_secure_keyboard_entry: true
+    is_prompt_on_quit: false
+  time_machine:
+    is_do_not_prompt_to_use_new_disks: true
+  text_edit:
+    is_use_plaintext_by_default: true
+  app_store:
+    is_auto_update_check: true
+    is_check_for_updates_daily: true
+    is_download_updates_in_background: true
+    is_install_system_updates: true
+    is_download_purchases_from_other_macs: false
+    is_app_auto_update: true
+  photos:
+    is_open_on_device: false
+  messages:
+    is_emoji_substition: true
+    is_smart_quotes: false
+    is_spell_check: true
+  misc:
+    is_dark_mode: true
+
+
 
   

@@ -21,7 +21,7 @@
 ## m-cli: dock #################################################
 - name: Dock - Show delay
   command: "m dock showdelay {{ mcli_configs.dock.show_delay }}"
-  when: mcli_configs.dock.is_change_show_delay is defined
+  when: mcli_configs.dock.show_delay is defined
   retries: 10
   delay: 1
   register: result
@@ -281,10 +281,11 @@
 # For other paths, use `PfLo` and `file:///full/path/here/`
 # defaults write com.apple.finder NewWindowTarget -string "PfDe"
 # defaults write com.apple.finder NewWindowTargetPath -string "file://${HOME}/Desktop/"
-- name: Set default location for new Finder windows
-  command: defaults write com.apple.finder NewWindowTarget -string "PfLo" \
-        && defaults write com.apple.finder NewWindowTargetPath -string "file://{{ defaults_write.finder.new_finder_window_location }}"
-  when: defaults_write.finder.new_finder_window_location is defined
+#- name: Set default location for new Finder windows
+#  command: | 
+#      defaults write com.apple.finder NewWindowTarget -string 'PfLo' \
+#      && defaults write com.apple.finder NewWindowTargetPath -string file://{{ defaults_write.finder.new_finder_window_location }}
+#  when: defaults_write.finder.new_finder_window_location is defined
 
 - name: Finder - Show or hide external hard drives on desktop
   command: "defaults write com.apple.finder ShowExternalHardDrivesOnDesktop -bool {{ defaults_write.finder.desktop.is_show_external_hard_drives}}"
@@ -338,11 +339,14 @@
   #    # defaults write com.apple.frameworks.diskimages skip-verify-locked -bool true
   #    # defaults write com.apple.frameworks.diskimages skip-verify-remote -bool true
   #
-- name: Automatically open a new Finder window when a volume is mounted
-  command: "defaults write com.apple.frameworks.diskimages auto-open-ro-root -bool {{ defaults_write.finder.is_open_finder_on_volume_mount }}" \
-        && "defaults write com.apple.frameworks.diskimages auto-open-rw-root -bool {{ defaults_write.finder.is_open_finder_on_volume_mount }}" \
-        && "defaults write com.apple.finder OpenWindowForNewRemovableDisk -bool {{ defaults_write.finder.is_open_finder_on_volume_mount }}"
+- name: Automatically open a new Finder window when a (read-only) volume is mounted
+  command: "defaults write com.apple.frameworks.diskimages auto-open-ro-root -bool {{ defaults_write.finder.is_open_finder_on_volume_mount }}"
 
+- name: Automatically open a new Finder window when a (read-write) volume is mounted
+  command: "defaults write com.apple.frameworks.diskimages auto-open-rw-root -bool {{ defaults_write.finder.is_open_finder_on_volume_mount }}"
+
+- name: Automatically open a new Finder window when a (removable) volume is mounted
+  command: "defaults write com.apple.finder OpenWindowForNewRemovableDisk -bool {{ defaults_write.finder.is_open_finder_on_volume_mount }}"
   #    # Show item info near icons on the desktop and in other icon views
   #    # /usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:showItemInfo true" ~/Library/Preferences/com.apple.finder.plist
   #    # /usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:showItemInfo true" ~/Library/Preferences/com.apple.finder.plist
@@ -378,67 +382,71 @@
 
 - name: Finder - Show specified hidden folders
   command: "chflags nohidden {{ item }}"
-  with_each: defaults_write.finder.show_directories
+  become: true
+  with_list: "{{ defaults_write.finder.show_directories }}"
 
 - name: Finder - Hide specified visible folders
   command: "chflags nohidden {{ item }}"
-  with_each: defaults_write.finder.hide_directories
+  become: true
+  with_list: "{{ defaults_write.finder.hide_directories }}"
   
  
 - name: "Finder - Expand File Info panes (General, Open with, Sharing & Permissions)"
-  command: "defaults write com.apple.finder FXInfoPanesExpanded -dict" \
-            "General -bool {{ defaults_write.finder.file_info_pane.general }}" \
-            "OpenWith -bool {{ defaults_write.finder.file_info_pane.open_with }}" \
-            "Privileges -bool {{ defaults_write.finder.file_info_pane.sharing_and_permissions }}"
+  command: |
+      defaults write com.apple.finder FXInfoPanesExpanded -dict \
+            General -bool {{ defaults_write.finder.file_info_pane.general }} \
+            OpenWith -bool {{ defaults_write.finder.file_info_pane.open_with }} \
+            Privileges -bool {{ defaults_write.finder.file_info_pane.sharing_and_permissions }}
 
   
 ################################################################################
 ## Dock, Dashboard, and hot corners                                            #
 ################################################################################
-  #
-  #- name: Set the icon size of Dock items to 25 pixels
-  #  command: defaults write com.apple.dock tilesize -int 25
-  #
-  #- name: Change minimize/maximize window effect
-  #  command: defaults write com.apple.dock mineffect -string "scale"
-  #
-  #- name: Minimize windows into their application’s icon
-  #  command: defaults write com.apple.dock minimize-to-application -bool true
-  #
-  #- name: Enable spring loading for all Dock items
-  #  command: defaults write com.apple.dock enable-spring-load-actions-on-all-items -bool true
-  #
-  #- name: Show indicator lights for open applications in the Dock
-  #  command: defaults write com.apple.dock show-process-indicators -bool false
-  #
-  #    # Wipe all (default) app icons from the Dock
+
+- name: Dock - Set icon size
+  command: "defaults write com.apple.dock tilesize -int {{ defaults_write.dock.icon_size }}"
+  when: defaults_write.dock.icon_size is defined
+
+- name: Dock - Change minimize/maximize window effect
+  command: "defaults write com.apple.dock mineffect -string '{{ defaults_write.dock.minimize_effect }}'"
+
+- name: Dock - Minimize windows into their application’s icon
+  command: "defaults write com.apple.dock minimize-to-application -bool {{ defaults_write.dock.is_minimize_to_app_icon }}"
+
+- name: Dock - Enable spring loading for all items
+  command: "defaults write com.apple.dock enable-spring-load-actions-on-all-items -bool {{ defaults_write.dock.is_springload }}"
+
+- name: Dock - Show indicator lights for open applications
+  command: "defaults write com.apple.dock show-process-indicators -bool {{ defaults_write.dock.is_show_indicator_lights }}"
+
+ #    # Wipe all (default) app icons from the Dock
   #    # This is only really useful when setting up a new Mac, or if you don’t use
   #    # the Dock to launch apps.
   #- name: Wipe all (default) app icons from the dock
   #  command: defaults write com.apple.dock persistent-apps -array
   #
-  #- name: Show only open applications in the Dock
-  #  command: defaults write com.apple.dock static-only -bool true
-  #
-  #- name: Don’t animate opening applications from the Dock
-  #  command: defaults write com.apple.dock launchanim -bool false
-  #
-  #    # Speed up Mission Control animations
-  #    # defaults write com.apple.dock expose-animation-duration -float 0.1
-  #
-  #    # (i.e. use the old Exposé behavior instead)
-  #- name: Don’t group windows by application in Mission Control
-  #  command: defaults write com.apple.dock expose-group-by-app -bool false
-  #
-  #- name: Disable Dashboard
-  #  command: defaults write com.apple.dashboard mcx-disabled -bool true
-  #
-  #- name: Don’t show Dashboard as a Space
-  #  command: defaults write com.apple.dock dashboard-in-overlay -bool true
-  #
-  #- name:  Don’t automatically rearrange Spaces based on most recent use
+- name: Dock - Show only open applications
+  command: "defaults write com.apple.dock static-only -bool {{ defaults_write.dock.is_show_open_apps_only }}"
+
+- name: Dock - Don’t animate opening applications from the Dock
+  command: "defaults write com.apple.dock launchanim -bool {{ defaults_write.dock.is_animate_opening_applications }}"
+
+- name: Dock - Speed up Mission Control animations
+  command: "defaults write com.apple.dock expose-animation-duration -float {{ defaults_write.dock.mission_control_speed }}"
+  when: defaults_write.dock.mission_control_speed is defined
+
+- name: Dock - Don’t group windows by application in Mission Control
+  command: "defaults write com.apple.dock expose-group-by-app -bool {{ defaults_write.dock.is_mission_control_group_apps }}"
+
+- name: Dock - Disable Dashboard
+  command: "defaults write com.apple.dashboard mcx-disabled -bool {{ defaults_write.dock.is_disable_dashboard }}"
+
+- name: Dock - Don’t show Dashboard as a Space
+  command: "defaults write com.apple.dock dashboard-in-overlay -bool {{ defaults_write.dock.is_show_dashboard_as_space }}"
+
+  #- name: Dock - Don’t automatically rearrange Spaces based on most recent use
   #  command: defaults write com.apple.dock mru-spaces -bool false
-  #
+
   #    # Remove the auto-hiding Dock delay
   #    # defaults write com.apple.dock autohide-delay -float 0
   #    # Remove the animation when hiding/showing the Dock
@@ -447,16 +455,16 @@
   #- name: Automatically hide and show the Dock
   #  command: defaults write com.apple.dock autohide -bool true
   #
-  #- name: Make Dock icons of hidden applications translucent
-  #  command: defaults write com.apple.dock showhidden -bool true
-  #
+- name: Dock - Make Dock icons of hidden applications translucent
+  command: "defaults write com.apple.dock showhidden -bool {{ defaults_write.dock.is_hidden_apps_translucent }}"
+
   #- name: Move Dock to righthand side of screen
   #  command: defaults write com.apple.dock orientation left
-  #
-  #- name: Disable the Launchpad gesture (pinch with thumb and three fingers)
-  #  command: defaults write com.apple.dock showLaunchpadGestureEnabled -int 0
-  #
-  #
+
+- name: Dock - Disable the Launchpad gesture (pinch with thumb and three fingers)
+  command: "defaults write com.apple.dock showLaunchpadGestureEnabled -int {{ 1 if defaults_write.dock.is_launchpad_gesture else 0 }}"
+
+
   #    # Add a spacer to the left side of the Dock (where the applications are)
   #    #defaults write com.apple.dock persistent-apps -array-add '{tile-data={}; tile-type="spacer-tile";}'
   #    # Add a spacer to the right side of the Dock (where the Trash is)
@@ -488,132 +496,141 @@
   #    # defaults write com.apple.dock wvous-bl-corner -int 5
   #    # defaults write com.apple.dock wvous-bl-modifier -int 0
   #
-  ################################################################################
-  ## Safari & WebKit                                                             #
-  ################################################################################
-  #- name: Privacy - don’t send search queries to Apple
-  #  command: defaults write com.apple.Safari UniversalSearchEnabled -bool false \
-  #        && defaults write com.apple.Safari SuppressSearchSuggestions -bool true
+  #################################################################################
+  ### Safari & WebKit                                                             #
+  #################################################################################
+  #- name: Privacy - Universal search
+  #  command: "defaults write com.apple.Safari UniversalSearchEnabled -bool {{ defaults_write.privacy.is_universal_search }}" 
   #
-  #    # Press Tab to highlight each item on a web page
-  #    # defaults write com.apple.Safari WebKitTabToLinksPreferenceKey -bool true
-  #    # defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2TabsToLinks -bool true
+  #- name: Privacy - Supress search suggestions
+  #  command: "defaults write com.apple.Safari SuppressSearchSuggestions -bool {{ defaults_write.privacy.is_suppress_search_suggestions }}" 
   #
-  #    # Show the full URL in the address bar (note: this still hides the scheme)
-  #    # defaults write com.apple.Safari ShowFullURLInSmartSearchField -bool true
+  #  #    # Press Tab to highlight each item on a web page
+  #  #    # defaults write com.apple.Safari WebKitTabToLinksPreferenceKey -bool true
+  #  #    # defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2TabsToLinks -bool true
+  #  #
+  #- name: Safari - Show the full URL in the address bar
+  #  command: "defaults write com.apple.Safari ShowFullURLInSmartSearchField -bool {{ defaults_write.safari.is_show_full_address }}"
   #
-  #    # Set Safari’s home page to `about:blank` for faster loading
-  #    #defaults write com.apple.Safari HomePage -string "about:blank"
+  #  #    # Set Safari’s home page to `about:blank` for faster loading
+  #  #    #defaults write com.apple.Safari HomePage -string "about:blank"
+  #  #
+  #- name: Safari - Prevent Safari from opening ‘safe’ files automatically after downloading
+  #  command: "defaults write com.apple.Safari AutoOpenSafeDownloads -bool {{ defaults_write.safari.is_open_safe_files }}"
   #
-  #- name: Prevent Safari from opening ‘safe’ files automatically after downloading
-  #  command: defaults write com.apple.Safari AutoOpenSafeDownloads -bool false
+  #  #    # Allow hitting the Backspace key to go to the previous page in history
+  #  #    # defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2BackspaceKeyNavigationEnabled -bool true
+  #  #
+  #- name: Safari - Hide Safari’s bookmarks bar by default
+  #  command: "defaults write com.apple.Safari ShowFavoritesBar -bool {{ defaults_write.safari.is_show_favorites_bar }}"
   #
-  #    # Allow hitting the Backspace key to go to the previous page in history
-  #    # defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2BackspaceKeyNavigationEnabled -bool true
+  #- name: Safari - Hide Safari’s sidebar in Top Sites
+  #  command: "defaults write com.apple.Safari ShowSidebarInTopSites -bool {{ defaults_write.safari.is_show_sidebar_in_topsites }}"
   #
-  #- name: Hide Safari’s bookmarks bar by default
-  #  command: defaults write com.apple.Safari ShowFavoritesBar -bool false
+  #  #    # Disable Safari’s thumbnail cache for History and Top Sites
+  #  #    # defaults write com.apple.Safari DebugSnapshotsUpdatePolicy -int 2
+  #  #
+  #- name: Safari - Enable Safari’s debug menu
+  #  command: "defaults write com.apple.Safari IncludeInternalDebugMenu -bool {{ defaults_write.safari.is_debug_menu }}"
   #
-  #- name: Hide Safari’s sidebar in Top Sites
-  #  command: defaults write com.apple.Safari ShowSidebarInTopSites -bool false
+  #- name: Safari - Make Safari’s search banners default to Contains instead of Starts With
+  #  command: "defaults write com.apple.Safari FindOnPageMatchesWordStartsOnly -bool {{ defaults_write.safari.is_find_on_page_matches_word_starts_only }}"
   #
-  #    # Disable Safari’s thumbnail cache for History and Top Sites
-  #    # defaults write com.apple.Safari DebugSnapshotsUpdatePolicy -int 2
+  #  #- name: Remove useless icons from Safari’s bookmarks bar
+  #  #  command: defaults write com.apple.Safari ProxiesInBookmarksBar "()"
+  #  #
+  ##    # Enable the Develop menu and the Web Inspector in Safari
+  #- name: Safari enable develop menu
+  #  command: "defaults write com.apple.Safari IncludeDevelopMenu -bool {{ defaults_write.safari.is_develop_menu }}"
   #
-  #- name: Enable Safari’s debug menu
-  #  command: defaults write com.apple.Safari IncludeInternalDebugMenu -bool false
+  #  #  #defaults write com.apple.Safari WebKitDeveloperExtrasEnabledPreferenceKey -bool true
+  #  #  #defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2DeveloperExtrasEnabled -bool true
+  #  #
+  #  #    # Add a context menu item for showing the Web Inspector in web views
+  #  #    #defaults write NSGlobalDomain WebKitDeveloperExtras -bool true
+  #  #
+  #  #    # Enable continuous spellchecking
+  #  #    #defaults write com.apple.Safari WebContinuousSpellCheckingEnabled -bool true
+  #  #    # Disable auto-correct
+  #  #    #defaults write com.apple.Safari WebAutomaticSpellingCorrectionEnabled -bool false
+  #  #
+  #     # Disable AutoFill
+  #- name: Safari - Disable autofill - Contacts
+  #  command: "defaults write com.apple.Safari AutoFillFromAddressBook -bool {{ defaults_write.safari.is_autofill.contacts }}"
   #
-  #- name: Make Safari’s search banners default to Contains instead of Starts With
-  #  command: defaults write com.apple.Safari FindOnPageMatchesWordStartsOnly -bool false
+  #- name: Safari - Disable autofill - Passwords
+  #  command: "defaults write com.apple.Safari AutoFillPasswords -bool {{ defaults_write.safari.is_autofill.passwords }}"
   #
-  #- name: Remove useless icons from Safari’s bookmarks bar
-  #  command: defaults write com.apple.Safari ProxiesInBookmarksBar "()"
+  #- name: Safari - Disable autofill - credit card
+  #  command: "defaults write com.apple.Safari AutoFillCreditCardData -bool {{ defaults_write.safari.is_autofill.credit_cards }}"
   #
-  #    # Enable the Develop menu and the Web Inspector in Safari
-  #- name: enable develop menu
-  #  command: defaults write com.apple.Safari IncludeDevelopMenu -bool true
-  #  #defaults write com.apple.Safari WebKitDeveloperExtrasEnabledPreferenceKey -bool true
-  #  #defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2DeveloperExtrasEnabled -bool true
+  #- name: Safari - Disable autofill - misc forms
+  #  command: "defaults write com.apple.Safari AutoFillMiscellaneousForms -bool {{ defaults_write.safari.is_autofill.misc_forms }}"
   #
-  #    # Add a context menu item for showing the Web Inspector in web views
-  #    #defaults write NSGlobalDomain WebKitDeveloperExtras -bool true
+  #- name: Safari - Warn about fraudulent websites
+  #  command: "defaults write com.apple.Safari WarnAboutFraudulentWebsites -bool {{ defaults_write.safari.is_warn_about_fraudulent_sites }}"
   #
-  #    # Enable continuous spellchecking
-  #    #defaults write com.apple.Safari WebContinuousSpellCheckingEnabled -bool true
-  #    # Disable auto-correct
-  #    #defaults write com.apple.Safari WebAutomaticSpellingCorrectionEnabled -bool false
+  #- name: Safari - Disable (webkit) plug-ins
+  #  command: defaults write com.apple.Safari WebKitPluginsEnabled -bool {{ defaults_write.safari.is_plugins }}
   #
-  #    # Disable AutoFill
-  #- name: Disable contacts autofill
-  #  command: defaults write com.apple.Safari AutoFillFromAddressBook -bool false
+  #- name: Safari - Disable (webkit2) plug-ins
+  #  command: defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2PluginsEnabled -bool {{ defaults_write.safari.is_plugins }}
   #
-  #- name: Disable password autofill
-  #  command: defaults write com.apple.Safari AutoFillPasswords -bool false
+  #- name: Safari - Disable (webkit) Java
+  #  command: defaults write com.apple.Safari WebKitJavaEnabled -bool {{ defaults_write.safari.is_java }}
   #
-  #- name: Disable credit card autofill
-  #  command: defaults write com.apple.Safari AutoFillCreditCardData -bool false
+  #- name: Safari - Disable (webkit2) Java
+  #  command: defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2JavaEnabled -bool {{ defaults_write.safari.is_java }}
   #
-  #- name: Disable misc forms autofill
-  #  command: defaults write com.apple.Safari AutoFillMiscellaneousForms -bool false
+  #- name: Safari - Block pop-up windows
+  #  command: | 
+  #      defaults write com.apple.Safari WebKitJavaScriptCanOpenWindowsAutomatically -bool {{ defaults_write.safari.is_block_popups }};
+  #      defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2JavaScriptCanOpenWindowsAutomatically -bool {{ defaults_write.safari.is_block_popups }};
   #
-  #- name: Warn about fraudulent websites
-  #  command: defaults write com.apple.Safari WarnAboutFraudulentWebsites -bool true
+  #- name: Safari - Disable auto-playing video
+  #  command: |
+  #    defaults write com.apple.Safari WebKitMediaPlaybackAllowsInline -bool {{ defaults_write.safari.is_autoplay_videos }} \
+  #    && defaults write com.apple.SafariTechnologyPreview WebKitMediaPlaybackAllowsInline -bool {{ defaults_write.safari.is_autoplay_videos }} \
+  #    && defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2AllowsInlineMediaPlayback -bool {{ defaults_write.safari.is_autoplay_videos }} \
+  #    && defaults write com.apple.SafariTechnologyPreview com.apple.Safari.ContentPageGroupIdentifier.WebKit2AllowsInlineMediaPlayback -bool {{ defaults_write.safari.is_autoplay_videos }}
   #
-  #- name: Disable plug-ins
-  #  command: defaults write com.apple.Safari WebKitPluginsEnabled -bool false \
-  #            && defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2PluginsEnabled -bool false
+  #- name: Safari - Enable "Do Not Track"
+  #  command: "defaults write com.apple.Safari SendDoNotTrackHTTPHeader -bool {{ defaults_write.safari.is_do_not_track }}"
   #
-  #- name: Disable Java
-  #  command: defaults write com.apple.Safari WebKitJavaEnabled -bool false \
-  #    && defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2JavaEnabled -bool false
-  #
-  #- name: Block pop-up windows
-  #  command: defaults write com.apple.Safari WebKitJavaScriptCanOpenWindowsAutomatically -bool false \
-  #        && defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2JavaScriptCanOpenWindowsAutomatically -bool false
-  #
-  #- name: Disable auto-playing video
-  #  command: defaults write com.apple.Safari WebKitMediaPlaybackAllowsInline -bool false \
-  #    && defaults write com.apple.SafariTechnologyPreview WebKitMediaPlaybackAllowsInline -bool false \
-  #    && defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2AllowsInlineMediaPlayback -bool false \
-  #    && defaults write com.apple.SafariTechnologyPreview com.apple.Safari.ContentPageGroupIdentifier.WebKit2AllowsInlineMediaPlayback -bool false
-  #
-  #- name: Enable “Do Not Track”
-  #  command: defaults write com.apple.Safari SendDoNotTrackHTTPHeader -bool true
-  #
-  #- name: Update extensions automatically
-  #  command: defaults write com.apple.Safari InstallExtensionUpdatesAutomatically -bool true
+  #- name: Safari - Update extensions automatically
+  #  command: "defaults write com.apple.Safari InstallExtensionUpdatesAutomatically -bool {{ defaults_write.safari.is_update_extensions_automatically }}"
   #
   #
-  ################################################################################
-  ## Mail                                                                        #
-  ################################################################################
-  #    # Disable send and reply animations in Mail.app
-  #    # defaults write com.apple.mail DisableReplyAnimations -bool true
-  #    # defaults write com.apple.mail DisableSendAnimations -bool true
-  #
-  #- name: Copy email addresses as `foo@example.com` instead of `Foo Bar <foo@example.com>` in Mail.app
-  #  command: defaults write com.apple.mail AddressesIncludeNameOnPasteboard -bool false
-  #
-  #    # Add the keyboard shortcut ⌘ + Enter to send an email in Mail.app
-  #    # defaults write com.apple.mail NSUserKeyEquivalents -dict-add "Send" "@\U21a9"
-  #
-  #    # Display emails in threaded mode, sorted by date (oldest at the top)
-  #    #defaults write com.apple.mail DraftsViewerAttributes -dict-add "DisplayInThreadedMode" -string "yes"
-  #    #defaults write com.apple.mail DraftsViewerAttributes -dict-add "SortedDescending" -string "yes"
-  #    #defaults write com.apple.mail DraftsViewerAttributes -dict-add "SortOrder" -string "received-date"
-  #
-  #- name: Disable inline attachments (just show the icons)
-  #  command: defaults write com.apple.mail DisableInlineAttachmentViewing -bool true
-  #
-  #  #- name: Disble automatic spell checking
-  #  #command: defaults write com.apple.mail SpellCheckingBehavior -string "NoSpellCheckingEnabled"
-  #    
-  #- name: Show most recent messages on top of thread
-  #  command: defaults write com.apple.mail ConversationViewSortDescending 1    
-  #
-  ################################################################################
-  ## Spotlight                                                                   #
-  ################################################################################
+################################################################################
+## Mail                                                                        #
+################################################################################
+    # Disable send and reply animations in Mail.app
+    # defaults write com.apple.mail DisableReplyAnimations -bool true
+    # defaults write com.apple.mail DisableSendAnimations -bool true
+
+- name: Mail - Copy email addresses as 'foo@example.com' instead of 'Foo Bar <foo@example.com>' in Mail.app
+  command: "defaults write com.apple.mail AddressesIncludeNameOnPasteboard -bool {{ defaults_write.mail.is_addresses_include_name_on_pasteboard }}"
+
+    # Add the keyboard shortcut ⌘ + Enter to send an email in Mail.app
+    # defaults write com.apple.mail NSUserKeyEquivalents -dict-add "Send" "@\U21a9"
+
+    # Display emails in threaded mode, sorted by date (oldest at the top)
+    #defaults write com.apple.mail DraftsViewerAttributes -dict-add "DisplayInThreadedMode" -string "yes"
+    #defaults write com.apple.mail DraftsViewerAttributes -dict-add "SortedDescending" -string "yes"
+    #defaults write com.apple.mail DraftsViewerAttributes -dict-add "SortOrder" -string "received-date"
+
+- name: Mail - Disable inline attachments (just show the icons)
+  command: "defaults write com.apple.mail DisableInlineAttachmentViewing -bool {{ not defaults_write.mail.is_inline_attachments }}"
+
+  #- name: Mail - Disble automatic spell checking
+  #command: defaults write com.apple.mail SpellCheckingBehavior -string "NoSpellCheckingEnabled"
+    
+  #- name: Mail - Show most recent messages on top of thread
+  #command: defaults write com.apple.mail ConversationViewSortDescending 1
+
+################################################################################
+## Spotlight                                                                   #
+################################################################################
   #    # Hide Spotlight tray-icon (and subsequent helper)
   #    #sudo chmod 600 /System/Library/CoreServices/Search.bundle/Contents/MacOS/Search
   #    # Disable Spotlight indexing for any volume that gets mounted and has not yet
@@ -658,9 +675,9 @@
   #    # Rebuild the index from scratch
   #    # sudo mdutil -E / > /dev/null
   #
-  ################################################################################
-  ## Terminal & iTerm 2                                                          #
-  ################################################################################
+###############################################################################
+# Terminal & iTerm 2                                                          #
+###############################################################################
   #    # Only use UTF-8 in Terminal.app
   #    # defaults write com.apple.terminal StringEncodings -array 4
   #
@@ -716,9 +733,9 @@
   #    #defaults write com.apple.terminal FocusFollowsMouse -bool true
   #    #defaults write org.x.X11 wm_ffm -bool true
   #
-  #    # Enable Secure Keyboard Entry in Terminal.app
   #    # See: https://security.stackexchange.com/a/47786/8918
-  #    # defaults write com.apple.terminal SecureKeyboardEntry -bool true
+- name: Terminal - Enable Secure Keyboard Entry in Terminal.app
+  command: "defaults write com.apple.terminal SecureKeyboardEntry -bool {{ defaults_write.terminal.is_secure_keyboard_entry }}"
   #
   #    # Disable the annoying line marks
   #    # defaults write com.apple.Terminal ShowLineMarks -int 0
@@ -726,107 +743,108 @@
   #    # Install the Solarized Dark theme for iTerm
   #    #open "${HOME}/init/Solarized Dark.itermcolors"
   #
-  #    # Don’t display the annoying prompt when quitting iTerm
-  #    #defaults write com.googlecode.iterm2 PromptOnQuit -bool false
+- name: Terminal - Don’t display the annoying prompt when quitting iTerm
+  command: "defaults write com.googlecode.iterm2 PromptOnQuit -bool {{ defaults_write.terminal.is_prompt_on_quit }}"
+
+################################################################################
+## Time Machine                                                                #
+################################################################################
+- name: Time Machine - Prevent Time Machine from prompting to use new hard drives as backup volume
+  command: "defaults write com.apple.TimeMachine DoNotOfferNewDisksForBackup -bool {{ defaults_write.time_machine.is_do_not_prompt_to_use_new_disks }}"
   #
-  ################################################################################
-  ## Time Machine                                                                #
-  ################################################################################
-  #- name: Prevent Time Machine from prompting to use new hard drives as backup volume
-  #  command: defaults write com.apple.TimeMachine DoNotOfferNewDisksForBackup -bool true
-  #
-  #- name: Disable local Time Machine backups
-  #  shell: hash tmutil &> /dev/null && sudo tmutil disablelocal
-  #
-  #
-  ################################################################################
-  ## Activity Monitor                                                            #
-  ################################################################################
-  #- name: Show the main window when launching Activity Monitor
-  #  command: defaults write com.apple.ActivityMonitor OpenMainWindow -bool true
-  #
-  #    # Visualize CPU usage in the Activity Monitor Dock icon
-  #    # defaults write com.apple.ActivityMonitor IconType -int 5
-  #
-  #- name: Show all processes in Activity Monitor
-  #  command: defaults write com.apple.ActivityMonitor ShowCategory -int 0
-  #
-  #- name: Sort Activity Monitor results by CPU usage
-  #  command: defaults write com.apple.ActivityMonitor SortColumn -string "CPUUsage" \
-  #        &&  defaults write com.apple.ActivityMonitor SortDirection -int 0
-  #
-  ################################################################################
-  ## Address Book, Dashboard, iCal, TextEdit, and Disk Utility                   #
-  ################################################################################
-  #
-  #    # Enable the debug menu in Address Book
-  #    # defaults write com.apple.addressbook ABShowDebugMenu -bool true
-  #
-  #    # Enable Dashboard dev mode (allows keeping widgets on the desktop)
-  #    # defaults write com.apple.dashboard devmode -bool true
-  #
-  #    # Enable the debug menu in iCal (pre-10.8)
-  #    # defaults write com.apple.iCal IncludeDebugMenu -bool true
-  #
-  #- name: Use plain text mode for new TextEdit documents
-  #  command: defaults write com.apple.TextEdit RichText -int 0
-  #
-  ################################################################################
-  ## Mac App Store                                                               #
-  ################################################################################
-  #- name: Enable the automatic update check
-  #  command: defaults write com.apple.SoftwareUpdate AutomaticCheckEnabled -bool true
-  #
-  #- name: Check for software updates daily, not just once per week
-  #  command: defaults write com.apple.SoftwareUpdate ScheduleFrequency -int 1
-  #
-  #- name: Download newly available updates in background
-  #  command: defaults write com.apple.SoftwareUpdate AutomaticDownload -int 1
-  #
-  #- name: Install System data files & security updates
-  #  command: defaults write com.apple.SoftwareUpdate CriticalUpdateInstall -int 1
-  #
-  #- name: Automatically download apps purchased on other Macs
-  #  command: defaults write com.apple.SoftwareUpdate ConfigDataInstall -int 0
-  #
-  #- name: Turn on app auto-update
-  #  command: defaults write com.apple.commerce AutoUpdate -bool true
-  #
-  ################################################################################
-  ## Photos                                                                      #
-  ################################################################################
-  #- name: Prevent Photos from opening automatically when devices are plugged in
-  #  command: defaults -currentHost write com.apple.ImageCapture disableHotPlug -bool true
-  #
-  ################################################################################
-  ## Messages                                                                    #
-  ################################################################################
-  ##- name: Disable automatic emoji substitution (i.e. use plain text smileys)
-  ##command: defaults write com.apple.messageshelper.MessageController SOInputLineSettings -dict-add "automaticEmojiSubstitutionEnablediMessage" -bool false
-  #
-  #- name: Disable smart quotes as it’s annoying for messages that contain code
-  #  command: defaults write com.apple.messageshelper.MessageController SOInputLineSettings -dict-add "automaticQuoteSubstitutionEnabled" -bool false
-  #
-  #    # Disable continuous spell checking
-  #    # defaults write com.apple.messageshelper.MessageController SOInputLineSettings -dict-add "continuousSpellCheckingEnabled" -bool false
-  #
-  ################################################################################
-  ## More...                                                                      #
-  ################################################################################
-  #- name: Expand save panel by default
-  #  command: defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
-  #
-  #- name: Expand print panel by default
-  #  command: defaults write NSGlobalDomain PMPrintingExpandedStateForPrint -bool true
-  #
-  #- name: Save to disk (not to iCloud) by default
-  #  command: defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
-  #
-  #- name: Disable game center. Who uses that thing?
-  #  command: launchctl unload /System/Library/LaunchAgents/com.apple.gamed.plist
-  #
-  #  #- name: Set background to dark-grey color
-  #  #command: sqlite3 ~/Library/Application\ Support/Dock/desktoppicture.db "update data set value = '/Library/Desktop Pictures/Solid Colors/Solid Gray Dark.png'"
-  #- name: Enable Dark Mode
-  #  command: osascript -e 'tell application "System Events" to tell appearance preferences to set dark mode to True'
-  #
+  #- name: Time Machine - Disable local Time Machine backups
+  #shell: hash tmutil &> /dev/null && sudo tmutil disablelocal
+
+
+################################################################################
+## Activity Monitor                                                            #
+################################################################################
+#- name: Show the main window when launching Activity Monitor
+#  command: defaults write com.apple.ActivityMonitor OpenMainWindow -bool true
+#
+#    # Visualize CPU usage in the Activity Monitor Dock icon
+#    # defaults write com.apple.ActivityMonitor IconType -int 5
+#
+#- name: Show all processes in Activity Monitor
+#  command: defaults write com.apple.ActivityMonitor ShowCategory -int 0
+#
+#- name: Sort Activity Monitor results by CPU usage
+#  command: defaults write com.apple.ActivityMonitor SortColumn -string "CPUUsage" \
+#        &&  defaults write com.apple.ActivityMonitor SortDirection -int 0
+#
+################################################################################
+## Address Book, Dashboard, iCal, TextEdit, and Disk Utility                   #
+################################################################################
+#
+#    # Enable the debug menu in Address Book
+#    # defaults write com.apple.addressbook ABShowDebugMenu -bool true
+#
+#    # Enable Dashboard dev mode (allows keeping widgets on the desktop)
+#    # defaults write com.apple.dashboard devmode -bool true
+#
+#    # Enable the debug menu in iCal (pre-10.8)
+#    # defaults write com.apple.iCal IncludeDebugMenu -bool true
+#
+- name: Use plain text mode for new TextEdit documents
+  command: "defaults write com.apple.TextEdit RichText -int {{ 0 if defaults_write.text_edit.is_use_plaintext_by_default else 1 }}"
+#
+###############################################################################
+# Mac App Store                                                               #
+###############################################################################
+#- name: Enable the automatic update check
+#  command: defaults write com.apple.SoftwareUpdate AutomaticCheckEnabled -bool {{ defaults_write.app_store.is_auto_update_check }} 
+#
+#- name: Check for software updates daily, not just once per week
+#  command: defaults write com.apple.SoftwareUpdate ScheduleFrequency -int {{ defaults_write.app_store.is_check_for_updates_daily }} 1
+#
+#- name: Download newly available updates in background
+#  command: defaults write com.apple.SoftwareUpdate AutomaticDownload -int {{ defaults_write.app_store.is_download_updates_in_background }} 1
+#
+#- name: Install System data files & security updates
+#  command: defaults write com.apple.SoftwareUpdate CriticalUpdateInstall -int {{ defaults_write.app_store.is_install_system_updates }} 1
+#
+#- name: Automatically download apps purchased on other Macs
+#  command: defaults write com.apple.SoftwareUpdate ConfigDataInstall -int {{ defaults_write.app_store.is_download_purchases_from_other_macs }} 0
+#
+#- name: Turn on app auto-update
+#  command: defaults write com.apple.commerce AutoUpdate -bool {{ defaults_write.app_store.is_app_auto_update }} true
+#
+################################################################################
+## Photos                                                                      #
+################################################################################
+- name: Photos - Prevent Photos from opening automatically when devices are plugged in
+  command: "defaults -currentHost write com.apple.ImageCapture disableHotPlug -bool {{ not defaults_write.photos.is_open_on_device }}"
+
+###############################################################################
+# Messages                                                                    #
+###############################################################################
+- name: Messages - Disable automatic emoji substitution (i.e. use plain text smileys)
+  command: "defaults write com.apple.messageshelper.MessageController SOInputLineSettings -dict-add 'automaticEmojiSubstitutionEnablediMessage' -bool {{ defaults_write.messages.is_emoji_substition }}"
+
+- name: Messages - Disable smart quotes as it’s annoying for messages that contain code
+  command: "defaults write com.apple.messageshelper.MessageController SOInputLineSettings -dict-add 'automaticQuoteSubstitutionEnabled' -bool {{ defaults_write.messages.is_smart_quotes }}"
+
+- name: Messages - Disable continuous spell checking
+  command: "defaults write com.apple.messageshelper.MessageController SOInputLineSettings -dict-add 'continuousSpellCheckingEnabled' -bool {{ defaults_write.messages.is_spell_check }}"
+
+################################################################################
+## More...                                                                      #
+################################################################################
+#- name: Expand save panel by default
+#  command: defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
+#
+#- name: Expand print panel by default
+#  command: defaults write NSGlobalDomain PMPrintingExpandedStateForPrint -bool true
+#
+#- name: Save to disk (not to iCloud) by default
+#  command: defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
+#
+#- name: Misc - Disable game center. Who uses that thing?
+#command: launchctl unload /System/Library/LaunchAgents/com.apple.gamed.plist
+#
+#  #- name: Set background to dark-grey color
+#  #command: sqlite3 ~/Library/Application\ Support/Dock/desktoppicture.db "update data set value = '/Library/Desktop Pictures/Solid Colors/Solid Gray Dark.png'"
+
+- name: Misc - Enable Dark Mode
+  command: osascript -e 'tell application "System Events" to tell appearance preferences to set dark mode to {{ defaults_write.misc.is_dark_mode }}'
+
