@@ -120,6 +120,82 @@ dockitems_to_remove:
 dockitems_to_persist: []
 
 macos_configs:
+  airport: 
+    is_disconnect_on_logout: true
+    non_preferred_networks_join_method: DoNothing
+    preferred_networks_join_method: Ranked
+    is_remember_recent_networks: true
+    is_secure_ad_hoc_networks: true
+    is_secure_change_networks: true
+    is_secure_wifi_toggle: true
+  is_animations: 
+    mail: true
+    inputs: true
+    finder: true
+    fullscreen: true
+    windows: true
+    quicklook: true
+  appearance: 
+    darkmode: true
+    transparency: true
+    antialiasthreshold: 8
+    sidebariconsize: small
+    maincolor: graphite
+    highlightcolor: cantaloupe
+  battery: 
+  dashboard: 
+    is_enabled: false
+  datetime: 
+    is_24_clock: true
+    usentpserver: true
+    ntpserver: time.apple.com
+    international: false
+    menubarformat: HH:MM:ss
+  is_debugmode: false
+  dialog: 
+    is_autoexpand_dialogs: true
+  dir: 
+    dirs_to_hide: []
+    dirs_to_show: []
+  disk: 
+  diskimages: 
+  diskutility: 
+  display: 
+    is_auto_brightness: true
+  filevault: 
+  fullscreen: 
+  group: 
+  hotcorners: 
+  info: 
+  itunes: 
+  keyboard: 
+  launchpad: 
+  locale: 
+  location: 
+  lock: 
+  missioncontrol: 
+  mouse: 
+  network: 
+  nosleep: 
+  notification: 
+  power: 
+  printer: 
+  restart: 
+  safeboot: 
+  screencapture: 
+  scrolling: 
+  shutdown: 
+  sleep: 
+  sound: 
+  spotlight: 
+  system: 
+  tooltip: 
+  update: 
+  user: 
+  volume: 
+  vpn: 
+  wallpaper: 
+  windows: 
   airdrop:
     is_only_wifi: true
   bluetooth:

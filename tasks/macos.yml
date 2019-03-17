@@ -8,6 +8,12 @@
 #- name: Airport -
 #  command: "m {{ macos_configs. }}"
 
+- name: Airport - Non-preferred networks
+  command: "m airport nonpreferrednetworks {{ macos_configs.airport.non_preferred_networks }}"
+
+- name: Airport - Remember recent networks
+  command: "m airport nonpreferrednetworks {{ macos_configs.airport.is_remember_recent_networks }}"
+
 
 ## m-cli: Animations #################################################
 #- name: Animations -
