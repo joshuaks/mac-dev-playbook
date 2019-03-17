@@ -10,7 +10,6 @@
       with_fileglob:
         - "{{ playbook_dir }}/config.yml"
       tags: ['always']
-    - include_tasks: tasks/disk.yml
 
   roles:
     - role: geerlingguy.homebrew
@@ -26,6 +25,10 @@
   tasks:
 
     - include_tasks: tasks/ansible-setup.yml
+
+    - include_tasks: tasks/repos.yml
+
+    - include_tasks: tasks/disk.yml
 
     - include_tasks: tasks/dock.yml
 

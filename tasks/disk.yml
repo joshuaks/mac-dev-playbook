@@ -5,8 +5,9 @@
     dest: ~/Brewfile
     state: link
 
-- name: clone dotfiles repo
-  git:
-    repo: git@github.com:joshuaks/dotfiles.git
-    dest: ~/Documents/Developer/Repositories/dotfiles.git
-    version: development
+- name: Create symbolic link for m-cli
+  file:
+    src: ~/Documents/Developer/Repositories/m-cli.forked.git/m
+    dest: ~/bin/m
+    state: link
+

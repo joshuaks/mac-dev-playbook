@@ -1,24 +1,6 @@
 ---
-- name: install oh-my-zsh
-  git:
-    repo: https://github.com/robbyrussell/oh-my-zsh.git
-    dest: ~/Documents/Developer/Repositories/oh-my-zsh.git
-    version: master
-
-- name: install oh-my-zsh dracula theme
-  git:
-    repo: https://github.com/dracula/zsh.git
-    dest: ~/Documents/Developer/Repositories/dracula.zsh.git
-    version: master
-
-- name: clone terminal.app dracula theme
-  git:
-    repo: https://github.com/dracula/terminal-app.git
-    dest: ~/Documents/Developer/Repositories/terminal-app.git
-    version: master
-
 - name: add dracula theme to terminal.app (must set as default manually)
-  command: open ~/Documents/Developer/Repositories/terminal-app.git/Dracula.terminal
+  command: open ~/Documents/Developer/Repositories/dracula.terminal-app.git/Dracula.terminal
   changed_when: false
   when: "'Dracula' not in terminal_theme.stdout"<Paste>
 
@@ -36,11 +18,6 @@
     dest: "{{ lookup('env','ZSH') }}/themes/dracula.zsh-theme"
     state: link
 
-- name: install oh-my-tmux
-  git:
-    repo: https://github.com/gpakosz/.tmux.git
-    dest: ~/Documents/Developer/Repositories/oh-my-tmux.git
-    version: master
 
 - name: symlink oh-my-tmux config
   file:

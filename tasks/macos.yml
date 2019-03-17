@@ -1,29 +1,92 @@
 ---
 
-## m-cli: battery #################################################
+## m-cli: AirDrop #################################################
+- name: AirDrop - Over wifi only
+  command: "m airdrop onlywifi {{ macos_configs.airdrop.is_only_wifi }}"
+
+## m-cli: Airport #################################################
+#- name: Airport -
+#  command: "m {{ macos_configs. }}"
 
 
-## m-cli: bloothtooth #################################################
+## m-cli: Animations #################################################
+#- name: Animations -
+#  command: "m {{ macos_configs. }}"
 
-- name: Bluebooth - Set on or off # (true/false)
+
+## m-cli: Appearance #################################################
+#- name: Appearance -
+#  command: "m {{ macos_configs. }}"
+
+
+## m-cli: Battery #################################################
+#- name: Battery -
+#  command: "m {{ macos_configs. }}"
+
+
+
+## m-cli: bluetooth #################################################
+- name: Bluetooth - Set on or off 
   command: "m bluetooth {{ macos_configs.bluetooth.is_on }}"
 
 
-## m-cli: disk #################################################
-#
+## m-cli: dashboard #################################################
+#- name: Battery -
+#  command: "m {{ macos_configs. }}"
+
+
+## m-cli: date & time #################################################
+#- name: Date & Time -
+#  command: "m {{ macos_configs. }}"
+
+
+## m-cli: debug mode #################################################
+#- name: Debug mode -
+#  command: "m {{ macos_configs. }}"
+
+
+## m-cli: dialog #################################################
+#- name: Dialog -
+#  command: "m {{ macos_configs. }}"
+
+
+## m-cli: dirs #################################################
+#- name: Dirs -
+#  command: "m {{ macos_configs. }}"
+
+
+## m-cli: Disk #################################################
+#- name: Disk -
+#  command: "m {{ macos_configs. }}"
+
+## m-cli: Disk Images #################################################
+#- name: Disk Images -
+#  command: "m {{ macos_configs. }}"
+
+
+## m-cli: Disk Utility #################################################
+#- name: Disk Utility -
+#  command: "m {{ macos_configs. }}"
+
+
+## m-cli: Display #################################################
+#- name: Display -
+#  command: "m {{ macos_configs. }}"
 
 ## m-cli: dns #################################################
 - name: DNS - flush (true/false)
   command: "m dns flush"
   when: macos_configs.dns.is_flush
 
+## m-cli: Dock #################################################
+#- name: Dock -
+#  command: "m {{ macos_configs. }}"
 
-## m-cli: dock #################################################
 - name: Dock - Show delay
   command: "m dock showdelay {{ macos_configs.dock.show_delay }}"
   when: macos_configs.dock.show_delay is defined
   retries: 10
-  delay: 1
+  delay: 2
   register: result
   until: result.rc == 0
 
@@ -33,7 +96,7 @@
   register: result
   failed_when: "'Domain (com.apple.dock) not found.' not in result.stderr and result.rc != 0"
   retries: 10
-  delay: 1
+  delay: 2
   register: result
   until: result.rc == 0
 
@@ -42,21 +105,21 @@
 - name: Dock - Show or hide
   command: "m dock autohide {{ 'YES' if macos_configs.dock.is_autohide else 'NO' }}"
   retries: 10
-  delay: 1
+  delay: 2
   register: result
   until: result.rc == 0
 
 - name: Dock - Enable or disable magnification
   command: "m dock magnification {{ 'YES' if macos_configs.dock.is_magnification else 'NO' }}"
   retries: 10
-  delay: 1
+  delay: 2
   register: result
   until: result.rc == 0
 
 - name: Dock - Set position (BOTTOM/LEFT/RIGHT)
   command: "m dock position {{ macos_configs.dock.position }}"
   retries: 10
-  delay: 1
+  delay: 2
   register: result
   until: result.rc == 0
 
@@ -64,7 +127,7 @@
   command: m dock addblankspace
   when: macos_configs.dock.is_add_blank_space
   retries: 10
-  delay: 1
+  delay: 2
   register: result
   until: result.rc == 0
 
@@ -72,161 +135,329 @@
   command: m dock addrecentitems
   when: macos_configs.dock.is_add_recent_items
   retries: 10
-  delay: 1
+  delay: 2
   register: result
   until: result.rc == 0
 
-- name: Dock - Remove all items
-  command: m dock prune
-  when: macos_configs.dock.is_remove_all_items
-  retries: 10
-  delay: 1
-  register: result
-  until: result.rc == 0
+  #- name: Dock - Remove all items
+  #  command: m dock prune
+  #  when: macos_configs.dock.is_remove_all_items
+  #  retries: 10
+  #  delay: 5
+  #  register: result
+  #  until: result.rc == 0
 
-## m-cli: dir #################################################
 
-## m-cli: finder #################################################
+
+## m-cli: FireVault #################################################
+#- name: FireVault -
+#  command: "m {{ macos_configs. }}"
+
+
+## m-cli: Finder #################################################
+#- name: Finder -
+#  command: "m {{ macos_configs. }}"
 - name: Finder - Show or hide hidden files
   command: "m finder showhiddenfiles {{ 'YES' if macos_configs.finder.is_show_hidden_files else 'NO' }}"
   retries: 10
-  delay: 1
+  delay: 2
 
 - name: Finder - Show or hide file extensions
   command: "m finder showextensions {{ 'YES' if macos_configs.finder.is_show_file_extensions else 'NO' }}"
   retries: 10
-  delay: 1
+  delay: 2
   register: result
   until: result.rc == 0
 
 - name: Finder - Show or hide the Desktop
   command: "m finder showdesktop {{ 'YES' if macos_configs.finder.is_show_desktop else 'NO' }}"
   retries: 10
-  delay: 1
+  delay: 2
   register: result
   until: result.rc == 0
 
 - name: Finder - Show path
   command: "m finder showpath {{ 'YES' if macos_configs.finder.is_show_path else 'NO' }}"
   retries: 10
-  delay: 1
+  delay: 2
   register: result
   until: result.rc == 0
 
-## m-cli: firewall #################################################
+
+
+## m-cli: Firewall #################################################
+#- name: Firewall -
+#  command: "m {{ macos_configs. }}"
 - name: Firewall - Enable or disable
   command: "m firewall {{ 'enable' if macos_configs.firewall.is_enable else 'disable' }}"
 
-  ### m-cli: flightmode #################################################
-  #- name: Flightmode - Enable or disable
-  #  command: "m flightmode {{ 'on' if macos_configs.flightmode.is_on else 'off' }}"
-  #  retries: 10
-  #  delay: 1
-  #  register: result
-  #  until: result.rc == 0
 
-## m-cli: gatekeeper #################################################
+## m-cli: Firewall #################################################
+#- name: Firewall -
+#  command: "m {{ macos_configs. }}"
+
+## m-cli: Full Screen #################################################
+#- name: Full Screen -
+#  command: "m {{ macos_configs. }}"
+
+
+## m-cli: GateKeeper #################################################
+#- name: GateKeeper -
+#  command: "m {{ macos_configs. }}"
 - name: GateKeeper - Enable or disable service (enable/disable)
   command: "m firewall {{ 'enable' if macos_configs.gatekeeper.is_enable else 'disable' }}"
   retries: 10
-  delay: 1
+  delay: 2
   register: result
   until: result.rc == 0
 
-  #- name: GateKeeper: Enable rules
-  #command: "m firewall {{ m_mcli.gatekeeper.}}"
-  #
-  #- name: GateKeeper: Disable rules
-  #  command: "m firewall {{ m_mcli.gatekeeper.}}"
-  #
-  #- name: GateKeeper: Create rules
-  #  command: "m firewall {{ m_mcli.gatekeeper.}}"
+## m-cli: Group #################################################
+#- name: Group -
+#  command: "m {{ macos_configs. }}"
 
-## m-cli: groups #################################################
-  ##- name: Groups: Add user to group
-  ##  command: "m group {{ macos_configs.groups. }}"
-  ##
-  ##- name: Groups: Remove user from group
-  ##  command: "m group {{ macos_configs.groups. }}"
-  #
-  ### m-cli: hostname #################################################
-  #- name: Hostname - Set hostname
-  #  command: "m hostname {{ macos_configs.hostname.name }}"
-  #  when: macos_configs.hostname.name is defined
-  #  retries: 10
-  #  delay: 1
-  #  register: result
-  #  until: result.rc == 0
-  #  
-## m-cli: ntp #################################################
-- name: NTP - Set status
-  command: "m ntp {{ 'enable' if macos_configs.ntp.is_enable else 'disable' }}"
-  retries: 10
-  delay: 1
-  register: result
-  until: result.rc == 0
-  
-## m-cli: notification center #################################################
+
+## m-cli: Hostname #################################################
+#- name: Hostname -
+#  command: "m {{ macos_configs. }}"
+
+
+## m-cli: HotCorners #################################################
+#- name: HotCorners -
+#  command: "m {{ macos_configs. }}"
+
+
+## m-cli: Info #################################################
+#- name: Info -
+#  command: "m {{ macos_configs. }}"
+
+
+## m-cli: iTunes #################################################
+#- name: iTunes -
+#  command: "m {{ macos_configs. }}"
+
+
+## m-cli: Keyboard #################################################
+#- name: Keyboard -
+#  command: "m {{ macos_configs. }}"
+
+
+## m-cli: Launchpad #################################################
+#- name: Launchpad -
+#  command: "m {{ macos_configs. }}"
+
+
+## m-cli: Locale #################################################
+#- name: Locale -
+#  command: "m {{ macos_configs. }}"
+
+
+## m-cli: Location #################################################
+#- name: Location -
+#  command: "m {{ macos_configs. }}"
+
+## m-cli: Lock #################################################
+#- name: Lock -
+#  command: "m {{ macos_configs. }}"
+
+
+## m-cli: Login Items #################################################
+#- name: Login Items -
+#  command: "m {{ macos_configs. }}"
+
+
+## m-cli: Menubar #################################################
+#- name: Menubar -
+#  command: "m {{ macos_configs. }}"
+
+
+## m-cli: Mission Control #################################################
+#- name: Mission Control -
+#  command: "m {{ macos_configs. }}"
+
+
+## m-cli: Mouse #################################################
+#- name: Mouse -
+#  command: "m {{ macos_configs. }}"
+
+
+## m-cli: Network #################################################
+#- name: Network -
+#  command: "m {{ macos_configs. }}"
+
+
+## m-cli: Nosleep #################################################
+#- name: Nosleep -
+#  command: "m {{ macos_configs. }}"
+
+
+## m-cli: Notification #################################################
+#- name: Notification -
+#  command: "m {{ macos_configs. }}"
 - name: Notification Center - Enable or disable
   command: "m notification showcenter {{ 'YES' if macos_configs.notification_center.is_enable else 'NO' }}"
   retries: 10
-  delay: 1
+  delay: 2
   register: result
   until: result.rc == 0
 
-  ### m-cli: screensaver #################################################
-  #- name: Screensaver - Ask for password
-  #  command: "m screensaver {{ 'YES' if macos_configs.screensaver.is_ask_for_password else 'NO' }}"
-  #  retries: 10
-  #  delay: 1
-  #  register: result
-  #  until: result.rc == 0
+## m-cli: NTP #################################################
+#- name: NTP -
+#  command: "m {{ macos_configs. }}"
 
-## m-cli: services #################################################
-- name: Services - Load services
-  command: "m service {{ item }}"
-  with_items: "{{ macos_configs.services.to_load }}"
 
-- name: Services - Unload services
-  command: "m service {{ item }}"
-  with_items: "{{ macos_configs.services.to_unload }}"
+## m-cli: Power #################################################
+#- name: Power -
+#  command: "m {{ macos_configs. }}"
 
-## m-cli: timezone #################################################
+
+## m-cli: Printer #################################################
+#- name: Printer -
+#  command: "m {{ macos_configs. }}"
+
+## m-cli: Restart #################################################
+#- name: Restart -
+#  command: "m {{ macos_configs. }}"
+
+
+
+## m-cli: Safeboot #################################################
+#- name: Safeboot -
+#  command: "m {{ macos_configs. }}"
+
+
+## m-cli: Screen Capture #################################################
+#- name: Screen Capture -
+#  command: "m {{ macos_configs. }}"
+
+
+## m-cli: Screensaver #################################################
+#- name: Screensaver -
+#  command: "m {{ macos_configs. }}"
+
+
+## m-cli: Scrolling #################################################
+#- name: Scrolling -
+#  command: "m {{ macos_configs. }}"
+
+
+## m-cli: Service #################################################
+#- name: Service -
+#  command: "m {{ macos_configs. }}"
+#- name: Services - Load services
+#  command: "m service load {{ item }}"
+#  with_items: "{{ macos_configs.services.to_load }}"
+#
+#- name: Services - Unload services
+#  command: "m service unload {{ item }}"
+#  with_items: "{{ macos_configs.services.to_unload }}"
+
+
+## m-cli: Shutdown #################################################
+#- name: Shutdown -
+#  command: "m {{ macos_configs. }}"
+
+
+## m-cli: Sleep #################################################
+#- name: Sleep -
+#  command: "m {{ macos_configs. }}"
+
+
+## m-cli: Sound #################################################
+#- name: Sound -
+#  command: "m {{ macos_configs. }}"
+
+
+## m-cli: Spotlight #################################################
+#- name: Spotlight -
+#  command: "m {{ macos_configs. }}"
+
+
+## m-cli: System #################################################
+#- name: System -
+#  command: "m {{ macos_configs. }}"
+
+
+## m-cli: Time Machine #################################################
+#- name: Time Machine -
+#  command: "m {{ macos_configs. }}"
+
+
+## m-cli: Timezone #################################################
+#- name: Timezone -
+#  command: "m {{ macos_configs. }}"
 - name: Timezone - Set timezone
-  command: "m timezone {{ macos_configs.timezone.name }}"
+  command: "m datetime timezone set {{ macos_configs.timezone.name }}"
   when: macos_configs.timezone.name is defined
   retries: 10
-  delay: 1
+  delay: 2
   register: result
   until: result.rc == 0
 
-## m-cli: trash #################################################
+
+## m-cli: Tooltips #################################################
+#- name: Tooltips -
+#  command: "m {{ macos_configs. }}"
+
+## m-cli: Trash #################################################
+#- name: Trash -
+#  command: "m {{ macos_configs. }}"
 - name: Trash - Empty tash
   command: "m trash clean"
   when: macos_configs.trash.is_empty
   retries: 10
-  delay: 1
+  delay: 2
   register: result
   until: result.rc == 0
 
 
-## m-cli: updates #################################################
+
+## m-cli: Update #################################################
+#- name: Update -
+#  command: "m {{ macos_configs. }}"
 - name: Updates - Is install all
   command: "m update install all"
   when: macos_configs.updates.is_install_all
 
-## m-cli: volume #################################################
 
-## m-cli: vpn #################################################
 
-## m-cli: set wallpaper #################################################
-#- name: Wallpaper - Set
-#  command: "m wallpaper {{ macos_configs.wallpaper.filepath }}"
-#  when: macos_configs.wallpaper.filepath is defined
+## m-cli: User #################################################
+#- name: User -
+#  command: "m {{ macos_configs. }}"
+
+
+## m-cli: Volume #################################################
+#- name: Volume -
+#  command: "m {{ macos_configs. }}"
+
+
+## m-cli: VPN #################################################
+#- name: VPN -
+#  command: "m {{ macos_configs. }}"
+
+
+## m-cli: Wallpaper #################################################
+#- name: Wallpaper -
+#  command: "m {{ macos_configs. }}"
+
 
 ## m-cli: Wifi #################################################
+#- name: Wifi -
+#  command: "m {{ macos_configs. }}"
 - name: Wifi - Is on
   command: "m wifi {{ 'on' if macos_configs.wifi.is_on else 'off' }}"
+
+
+
+## m-cli: Windows #################################################
+#- name: Windows -
+#  command: "m {{ macos_configs. }}"
+
+
+
+
+
+
+
 
 
 #################################################################################

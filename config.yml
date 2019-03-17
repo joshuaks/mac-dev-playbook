@@ -8,6 +8,7 @@ configure_terminal: no
 configure_osx: no
 configure_zsh: yes
 
+mcli_filepath: ~/Documents/Developer/Repositories/m-cli.forked.git/m
 
 homebrew_clear_cache: true
 homebrew_use_brewfile: true
@@ -39,6 +40,32 @@ homebrew_installed_packages: []
 #  - watch
 #  - zsh
 #
+repos:
+  destination: ~/Documents/Developer/Repositories
+  git:
+    - repo: git@github.com:joshuaks/dotfiles.git
+      version: development
+
+    - repo: git@github.com:thegranddesign/m-cli.git
+      name: m-cli.forked
+      version: master
+
+    - repo: https://github.com/dracula/zsh.git
+      name: dracula.zsh
+      version: master
+
+    - repo: https://github.com/dracula/terminal-app.git
+      name: dracula.terminal-app
+      version: master
+
+    - repo: https://github.com/robbyrussell/oh-my-zsh.git
+      version: master
+
+    - repo: https://github.com/gpakosz/.tmux.git
+      name: oh-my-tmux
+      version: master
+
+
 homebrew_taps:
   - homebrew/bundle # required to install from brewfile
 #
@@ -93,6 +120,8 @@ dockitems_to_remove:
 dockitems_to_persist: []
 
 macos_configs:
+  airdrop:
+    is_only_wifi: true
   bluetooth:
     is_on: true
   dns:
