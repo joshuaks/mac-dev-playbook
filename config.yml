@@ -92,57 +92,11 @@ dockitems_to_remove:
 
 dockitems_to_persist: []
 
-mcli_configs:
+macos_configs:
   bluetooth:
     is_on: true
   dns:
     is_flush: true
-  dock:
-      #show_delay: 0
-    is_autohide: true
-    is_magnification: false
-    position: left
-    is_add_blank_space: false
-    is_add_recent_items: false
-    is_remove_all_items: true
-  finder:
-    is_show_hidden_files: false
-    is_show_file_extensions: true
-    is_show_desktop: false
-    is_show_path: true
-  firewall:
-    is_enable: true
-  flightmode:
-    is_on: false
-  gatekeeper:
-    is_enable: true
-  hostname:
-    name: josh-rmbp-13.local
-  ntp:
-    is_enable: true
-    time_server: time.apple.com
-  notification_center:
-    is_enable: true
-  screensaver:
-    is_ask_for_password: true
-  services:
-    to_load: []
-    to_unload: [
-      "/System/Library/LaunchAgents/com.apple.gamed.plist"
-    ]
-  timezone:
-    name: America/New_York
-  trash:
-    is_empty: true
-  updates:
-    is_install_all: true
-    #wallpaper:
-      #is_set_wallpaper: false
-      #filepath: /dev/null
-  wifi:
-    is_on: true
-      #
-defaults_write:
   general:
     is_sidebar_icon_size_small: true
     is_quit_printer_app_when_done: true
@@ -156,6 +110,10 @@ defaults_write:
     is_autocorrect: false
     is_enable_key_repeat: true
   finder:
+    is_show_hidden_files: false
+    is_show_file_extensions: true
+    is_show_desktop: false
+    is_show_path: true
     new_finder_window_location: ~/Documents
     desktop:
       is_show_external_hard_drives: false
@@ -175,6 +133,12 @@ defaults_write:
       open_with: false
       sharing_and_permissions: false
   dock:
+    is_autohide: true
+    is_magnification: false
+    position: left
+    is_add_blank_space: false
+    is_add_recent_items: false
+    is_remove_all_items: true
     icon_size: 16
     minimize_effect: scale
     is_minimize_to_app_icon: true
@@ -192,6 +156,7 @@ defaults_write:
     is_suppress_search_suggestions: true
   safari:
     is_show_full_address: false
+    is_remove_default_bookmarks: true
     is_open_safe_files: false
     is_show_favorites_bar: false
     is_show_sidebar_in_topsites: true
@@ -234,7 +199,39 @@ defaults_write:
     is_smart_quotes: false
     is_spell_check: true
   misc:
+    is_expand_save_panel_by_default: true
+    is_expand_print_panel_by_default: false
+    is_save_to_icloud_by_default: false
+    wallpaper_filepath: /Library/Desktop Pictures/Solar Gradients.heic
     is_dark_mode: true
+  firewall:
+    is_enable: true
+  flightmode:
+    is_on: false
+  gatekeeper:
+    is_enable: true
+  hostname:
+    name: josh-rmbp-13.local
+  ntp:
+    is_enable: true
+    time_server: time.apple.com
+  notification_center:
+    is_enable: true
+  screensaver:
+    is_ask_for_password: true
+  services:
+    to_load: []
+    to_unload: [
+      "/System/Library/LaunchAgents/com.apple.gamed.plist"
+    ]
+  timezone:
+    name: America/New_York
+  trash:
+    is_empty: true
+  updates:
+    is_install_all: true
+  wifi:
+    is_on: true
 
 
 
