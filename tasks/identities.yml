@@ -1,38 +1,25 @@
 ---
 
+- name: Sign in
+  shell: eval $(op signin)
+
 - name: Get me.id_rsa
-  command: op get document 'me.id_rsa'
-  register: me_id_rsa
+  onepassword_facts:
+    search_terms: 
+      - name: me.id_rsa
+        field: document
+      - name: me.id_rsa.pub
+        field: document
+      - name: work.id_rsa
+        field: document
+      - name: work.id_rsa.pub
+        field: document
+  register: lookup_results
+  no_log: true   # Don't want to log the secrets to the console!
 
-- name: Get me.id_rsa.pub
-  command: op get document 'me.id_rsa.pub'
-  register: me_id_rsa_pub
-
-- name: Get work.id_rsa
-  command: op get document 'work.id_rsa'
-  register: work_id_rsa
-
-- name: Get work.id_rsa.pub
-  command: op get document 'work.id_rsa.pub'
-  register: work_id_rsa_pub
-
-
-- name: Write me.id_rsa to disk
+- name: Write keys to disk
   copy:
-    content: "{{ me_id_rsa.stdout }}\n"
-    dest: ~/.ssh/me.id_rsa
+    content: "{{ item.value.document }}\n"
+    dest: "~/.ssh/{{ item.key }}"
+  with_items: "{{ lookup_results['ansible_facts']['onepassword'] | dict2items }}"
 
-- name: Write me.id_rsa.pub to disk
-  copy:
-    content: "{{ me_id_rsa_pub.stdout }}\n"
-    dest: ~/.ssh/me.id_rsa.pub
-
-- name: Write work.id_rsa to disk
-  copy:
-    content: "{{ work_id_rsa.stdout }}\n"
-    dest: ~/.ssh/work.id_rsa
-
-- name: Write work.id_rsa.pub to disk
-  copy:
-    content: "{{ work_id_rsa_pub.stdout }}\n"
-    dest: ~/.ssh/work.id_rsa.pub
