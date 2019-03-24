@@ -1,0 +1,38 @@
+---
+
+- name: Get me.id_rsa
+  command: op get document 'me.id_rsa'
+  register: me_id_rsa
+
+- name: Get me.id_rsa.pub
+  command: op get document 'me.id_rsa.pub'
+  register: me_id_rsa_pub
+
+- name: Get work.id_rsa
+  command: op get document 'work.id_rsa'
+  register: work_id_rsa
+
+- name: Get work.id_rsa.pub
+  command: op get document 'work.id_rsa.pub'
+  register: work_id_rsa_pub
+
+
+- name: Write me.id_rsa to disk
+  copy:
+    content: "{{ me_id_rsa.stdout }}\n"
+    dest: ~/.ssh/me.id_rsa
+
+- name: Write me.id_rsa.pub to disk
+  copy:
+    content: "{{ me_id_rsa_pub.stdout }}\n"
+    dest: ~/.ssh/me.id_rsa.pub
+
+- name: Write work.id_rsa to disk
+  copy:
+    content: "{{ work_id_rsa.stdout }}\n"
+    dest: ~/.ssh/work.id_rsa
+
+- name: Write work.id_rsa.pub to disk
+  copy:
+    content: "{{ work_id_rsa_pub.stdout }}\n"
+    dest: ~/.ssh/work.id_rsa.pub

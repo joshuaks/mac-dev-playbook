@@ -26,13 +26,18 @@
 
     - include_tasks: tasks/ansible-setup.yml
 
-    - include_tasks: tasks/repos.yml
-
     - include_tasks: tasks/disk.yml
 
     - include_tasks: tasks/dock.yml
 
-    - include_tasks: tasks/macos.yml
+      #- include_tasks: tasks/macos.yml
+
+    - include_tasks: tasks/mackup.yml
+
+    - include_tasks: tasks/identities.yml
+
+    - include_tasks: tasks/repos.yml
+
 
       #    - include_tasks: tasks/homebrew-update.yml
       #
