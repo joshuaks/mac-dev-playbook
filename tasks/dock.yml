@@ -1,5 +1,5 @@
 ---
-- name: Remove all icons from Dock
+- name: Remove icons from Dock
   shell: "dockutil --remove '{{ item }}'"
   ignore_errors: true
   with_items: "{{ dockitems_to_remove }}"
@@ -10,4 +10,5 @@
 
 - name: Fix order
   shell: dockutil --move '{{ item.name }}' --position {{ item.pos }}
+  when: item.pos is defined
   with_items: "{{ dockitems_to_persist }}"

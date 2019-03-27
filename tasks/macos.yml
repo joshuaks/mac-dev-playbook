@@ -145,13 +145,13 @@
   register: result
   until: result.rc == 0
 
-  #- name: Dock - Remove all items
-  #  command: m dock prune
-  #  when: macos_configs.dock.is_remove_all_items
-  #  retries: 10
-  #  delay: 5
-  #  register: result
-  #  until: result.rc == 0
+- name: Dock - Show running icons only
+  command: m dock prune
+  when: "{{ 'YES' if macos_configs.dock.is_show_open_apps_only else 'NO' }}"
+  retries: 10
+  delay: 5
+  register: result
+  until: result.rc == 0
 
 
 
@@ -674,8 +674,8 @@
   #- name: Wipe all (default) app icons from the dock
   #  command: defaults write com.apple.dock persistent-apps -array
   #
-- name: Dock - Show only open applications
-  command: "defaults write com.apple.dock static-only -bool {{ macos_configs.dock.is_show_open_apps_only }}"
+  #- name: Dock - Show only open applications
+  #command: "defaults write com.apple.dock static-only -bool {{ macos_configs.dock.is_show_open_apps_only }}"
 
 - name: Dock - Don’t animate opening applications from the Dock
   command: "defaults write com.apple.dock launchanim -bool {{ macos_configs.dock.is_animate_opening_applications }}"

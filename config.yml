@@ -117,7 +117,9 @@ dockitems_to_remove:
   - App Store
   - System Preferences
 
-dockitems_to_persist: []
+dockitems_to_persist:
+  - name: Downloads
+    path: ~/Downloads
 
 macos_configs:
   airport: 
@@ -249,7 +251,7 @@ macos_configs:
     is_minimize_to_app_icon: true
     is_springload: true
     is_show_indicator_lights: false
-    is_show_open_apps_only: true
+    is_show_open_apps_only: false # this would hide ~/Downloads, etc
     is_animate_opening_applications: true
     is_mission_control_group_apps: false
     is_disable_dashboard: true
