@@ -1,0 +1,6 @@
+
+
+
+## m-cli: HotCorners #################################################
+#- name: HotCorners -
+#  command: "m {{ macos_configs. }}"

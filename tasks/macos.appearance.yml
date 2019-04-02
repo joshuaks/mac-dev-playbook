@@ -1,0 +1,20 @@
+---
+
+- name: m appearance antialiasthreshold x | The threshold above which antialiasing is turned on
+  command: "m appearance antialiasthreshold {{ macos_configs.appearance.antialiasthreshold }}"
+
+- name: m appearance sidebariconsize | The size of the icons in various window sidebars
+  command: "m appearance sidebariconsize {{ macos_configs.appearance.sidebariconsize }}"
+
+  #- name: m appearance maincolor | The color used for the majority of the interface elements
+  #  command: "m appearance maincolor {{ macos_configs.appearance.maincolor }}"
+  #
+  #- name: m appearance highlightcolor | The color used for highlights
+  #  command: "m appearance highlightcolor {{ macos_configs.appearance.highlightcolor }}"
+
+- name: Dark Mode
+  command: osascript -e 'tell application "System Events" to tell appearance preferences to set dark mode to {{ macos_configs.appearance.is_darkmode }}'
+
+  #- name: m appearance transparency | Whether to allow the OS to make certain elements semi-transparent
+  #  command: "m appearance transparency {{ 'YES' if macos_configs.appearance.is_transparency else 'NO' }}"
+

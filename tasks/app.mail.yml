@@ -1,0 +1,29 @@
+
+
+################################################################################
+## Mail                                                                        #
+################################################################################
+    # Disable send and reply animations in Mail.app
+    # defaults write com.apple.mail DisableReplyAnimations -bool true
+    # defaults write com.apple.mail DisableSendAnimations -bool true
+
+- name: Mail - Copy email addresses as 'foo@example.com' instead of 'Foo Bar <foo@example.com>' in Mail.app
+  command: "defaults write com.apple.mail AddressesIncludeNameOnPasteboard -bool {{ macos_configs.mail.is_addresses_include_name_on_pasteboard }}"
+
+    # Add the keyboard shortcut ⌘ + Enter to send an email in Mail.app
+    # defaults write com.apple.mail NSUserKeyEquivalents -dict-add "Send" "@\U21a9"
+
+    # Display emails in threaded mode, sorted by date (oldest at the top)
+    #defaults write com.apple.mail DraftsViewerAttributes -dict-add "DisplayInThreadedMode" -string "yes"
+    #defaults write com.apple.mail DraftsViewerAttributes -dict-add "SortedDescending" -string "yes"
+    #defaults write com.apple.mail DraftsViewerAttributes -dict-add "SortOrder" -string "received-date"
+
+- name: Mail - Disable inline attachments (just show the icons)
+  command: "defaults write com.apple.mail DisableInlineAttachmentViewing -bool {{ not macos_configs.mail.is_inline_attachments }}"
+
+  #- name: Mail - Disble automatic spell checking
+  #command: defaults write com.apple.mail SpellCheckingBehavior -string "NoSpellCheckingEnabled"
+    
+  #- name: Mail - Show most recent messages on top of thread
+  #command: defaults write com.apple.mail ConversationViewSortDescending 1
+

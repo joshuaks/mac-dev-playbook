@@ -1,0 +1,5 @@
+
+
+## m-cli: Location #################################################
+#- name: Location -
+#  command: "m {{ macos_configs. }}"

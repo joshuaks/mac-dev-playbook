@@ -1,0 +1,22 @@
+
+###############################################################################
+# Mac App Store                                                               #
+###############################################################################
+- name: Mac App Store - Enable the automatic update check
+  command: defaults write com.apple.SoftwareUpdate AutomaticCheckEnabled -bool {{ macos_configs.app_store.is_auto_update_check }} 
+
+- name: Mac App Store - Check for software updates daily, not just once per week
+  command: defaults write com.apple.SoftwareUpdate ScheduleFrequency -int {{ macos_configs.app_store.is_check_for_updates_daily }}
+
+- name: Mac App Store - Download newly available updates in background
+  command: defaults write com.apple.SoftwareUpdate AutomaticDownload -int {{ macos_configs.app_store.is_download_updates_in_background }}
+
+- name: Mac App Store - Install System data files & security updates
+  command: defaults write com.apple.SoftwareUpdate CriticalUpdateInstall -int {{ macos_configs.app_store.is_install_system_updates }}
+
+- name: Mac App Store - Automatically download apps purchased on other Macs
+  command: defaults write com.apple.SoftwareUpdate ConfigDataInstall -int {{ macos_configs.app_store.is_download_purchases_from_other_macs }}
+
+- name: Mac App Store - Turn on app auto-update
+  command: defaults write com.apple.commerce AutoUpdate -bool {{ macos_configs.app_store.is_app_auto_update }}
+

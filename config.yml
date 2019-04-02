@@ -122,13 +122,11 @@ dockitems_to_persist:
     path: ~/Downloads
 
 macos_configs:
-  airdrop:
-    is_only_wifi: true
   airport: 
     non_preferred_networks_join_method: DoNothing
-    is_remember_recent_networks: true
-    is_disconnect_on_logout: true
     preferred_networks_join_method: Ranked
+    is_disconnect_on_logout: true
+    is_remember_recent_networks: true
     is_secure_ad_hoc_networks: true
     is_secure_change_networks: true
     is_secure_wifi_toggle: true
@@ -140,13 +138,9 @@ macos_configs:
     windows: true
     quicklook: true
   appearance: 
-    darkmode: true
-    transparency: true
     antialiasthreshold: 8
     sidebariconsize: small
-    maincolor: graphite
-    highlightcolor: cantaloupe
-  battery: 
+    is_darkmode: true
   dashboard: 
     is_enabled: false
   datetime: 
@@ -200,8 +194,6 @@ macos_configs:
   vpn: 
   wallpaper: 
   windows: 
-  bluetooth:
-    is_on: true
   dns:
     is_flush: true
   general:
@@ -251,7 +243,7 @@ macos_configs:
     is_minimize_to_app_icon: true
     is_springload: true
     is_show_indicator_lights: false
-    is_show_open_apps_only: false # this would hide ~/Downloads, etc
+    is_remove_all_pinned_apps: true
     is_animate_opening_applications: true
     is_mission_control_group_apps: false
     is_disable_dashboard: true
@@ -310,7 +302,6 @@ macos_configs:
     is_expand_print_panel_by_default: false
     is_save_to_icloud_by_default: false
     wallpaper_filepath: /Library/Desktop Pictures/Solar Gradients.heic
-    is_dark_mode: true
   firewall:
     is_enable: true
   flightmode:

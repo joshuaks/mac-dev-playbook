@@ -1,0 +1,11 @@
+---
+
+## m-cli: dashboard #################################################
+#- name: Battery -
+#  command: "m {{ macos_configs. }}"
+
+- name: Dock - Disable Dashboard
+  command: "defaults write com.apple.dashboard mcx-disabled -bool {{ macos_configs.dock.is_disable_dashboard }}"
+
+- name: Dock - Don’t show Dashboard as a Space
+  command: "defaults write com.apple.dock dashboard-in-overlay -bool {{ macos_configs.dock.is_show_dashboard_as_space }}"
