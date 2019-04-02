@@ -122,11 +122,13 @@ dockitems_to_persist:
     path: ~/Downloads
 
 macos_configs:
+  airdrop:
+    is_only_wifi: true
   airport: 
-    is_disconnect_on_logout: true
     non_preferred_networks_join_method: DoNothing
-    preferred_networks_join_method: Ranked
     is_remember_recent_networks: true
+    is_disconnect_on_logout: true
+    preferred_networks_join_method: Ranked
     is_secure_ad_hoc_networks: true
     is_secure_change_networks: true
     is_secure_wifi_toggle: true
@@ -198,8 +200,6 @@ macos_configs:
   vpn: 
   wallpaper: 
   windows: 
-  airdrop:
-    is_only_wifi: true
   bluetooth:
     is_on: true
   dns:

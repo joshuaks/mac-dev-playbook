@@ -26,40 +26,36 @@
 
     - include_tasks: tasks/ansible-setup.yml
 
-    - include_tasks: tasks/disk.yml
+    - include_tasks: tasks/symlinks.yml
 
-    - include_tasks: tasks/dock.yml
+    - include_tasks: tasks/app.dock.yml
 
       #- include_tasks: tasks/macos.yml
 
-    - include_tasks: tasks/mackup.yml
+    - include_tasks: tasks/cli.mackup.yml
 
-    - include_tasks: tasks/identities.yml
+    - include_tasks: tasks/cli.ssh.yml
 
-    - include_tasks: tasks/repos.yml
+    - include_tasks: tasks/repositories.yml
 
 
-      #    - include_tasks: tasks/homebrew-update.yml
+      #    - include_tasks: tasks/brew.update.yml
       #
-      #    - include_tasks: tasks/homebrew-clean.yml
+      #    - include_tasks: tasks/brew.clean.yml
       #
-      #    - include_tasks: tasks/nvim.yml
+      #    - include_tasks: tasks/cli.nvim.yml
       #
       #    - include_tasks: tasks/sudoers.yml
       #      when: configure_sudoers
       #
-      #    - include_tasks: tasks/terminal.yml
+      #    - include_tasks: tasks/app.terminal.yml
       #      when: configure_terminal
-      #
-      #    - include_tasks: tasks/osx.yml
-      #      when: configure_osx
-      #      tags: ['osx']
       #
       #    - include_tasks: tasks/extra-packages.yml
       #      tags: ['extra-packages']
       #
       #    - name: configure zsh
-      #      include_tasks: tasks/zsh.yml
+      #      include_tasks: tasks/cli.zsh.yml
       #      when: configure_zsh
       #      tags: ['zsh']
       #

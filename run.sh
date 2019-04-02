@@ -17,14 +17,13 @@ declare -r SCRIPT_FILEPATH="${SCRIPT_DIRPATH}/${SCRIPT_FILENAME}"
 function main(){
     local -r user_password_symlink="${SCRIPT_DIRPATH}/_user_password"
 
+    #eval $( op signin ) # this works since everything is done on localhost
+
     ansible-galaxy install -r requirements.yml
 
     local user_password=''
 
-    if [[ -f "${user_password_symlink}" ]]; then
-        user_password="$( cat "${user_password_symlink}" )"
-    else
-
+    if [[ ! -f "${user_password_symlink}" ]]; then
         local -r random_password_filepath="$(mktemp)"
 
         unlink "${user_password_symlink}" || true
@@ -35,10 +34,9 @@ function main(){
         echo
 
         echo "${user_password}" > "${user_password_symlink}"
-
-        unset user_password
     fi
 
+    unset user_password
 
 
     ansible-playbook main.yml \

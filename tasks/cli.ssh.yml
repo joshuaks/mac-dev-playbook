@@ -1,5 +1,12 @@
 ---
 
+#- name: Execute op signin
+#  expect:
+#    command: op signin
+#    responses:
+#      "Enter the password for": "foobar"
+#
+
 - name: Sign in
   shell: eval $(op signin)
 
