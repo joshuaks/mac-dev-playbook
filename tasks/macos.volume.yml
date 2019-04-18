@@ -1,5 +1,0 @@
-
-## m-cli: Volume #################################################
-#- name: Volume -
-#  command: "m {{ macos_configs. }}"
-

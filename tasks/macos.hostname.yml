@@ -1,6 +1,0 @@
-
-
-
-## m-cli: Hostname #################################################
-#- name: Hostname -
-#  command: "m {{ macos_configs. }}"

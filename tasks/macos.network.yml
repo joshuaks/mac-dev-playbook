@@ -1,5 +1,0 @@
-
-## m-cli: Network #################################################
-#- name: Network -
-#  command: "m {{ macos_configs. }}"
-

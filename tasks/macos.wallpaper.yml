@@ -1,5 +1,0 @@
-
-## m-cli: Wallpaper #################################################
-#- name: Wallpaper -
-#  command: "m {{ macos_configs. }}"
-

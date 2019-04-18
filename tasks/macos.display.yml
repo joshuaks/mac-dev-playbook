@@ -1,5 +1,0 @@
-
-## m-cli: Display #################################################
-#- name: Display -
-#  command: "m {{ macos_configs. }}"
-

@@ -1,6 +1,0 @@
-
-
-## m-cli: Screen Capture #################################################
-#- name: Screen Capture -
-#  command: "m {{ macos_configs. }}"
-

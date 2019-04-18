@@ -1,5 +1,0 @@
-
-
-## m-cli: Disk Utility #################################################
-#- name: Disk Utility -
-#  command: "m {{ macos_configs. }}"

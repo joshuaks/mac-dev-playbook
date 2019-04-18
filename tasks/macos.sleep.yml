@@ -1,5 +1,0 @@
-
-## m-cli: Sleep #################################################
-#- name: Sleep -
-#  command: "m {{ macos_configs. }}"
-

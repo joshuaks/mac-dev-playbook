@@ -1,5 +1,0 @@
-
-## m-cli: System #################################################
-#- name: System -
-#  command: "m {{ macos_configs. }}"
-

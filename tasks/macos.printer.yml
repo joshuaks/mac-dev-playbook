@@ -1,5 +1,0 @@
-
-## m-cli: Printer #################################################
-#- name: Printer -
-#  command: "m {{ macos_configs. }}"
-

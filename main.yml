@@ -21,114 +21,51 @@
     - role: geerlingguy.mas
       when: mas_installed_apps
       tags: ['mas']
+    - role: brew_maintenance
+    - role: repositories
+    - role: macos_config
+    - role: cli_config
 
-  tasks:
-
-    - include_tasks: tasks/ansible-setup.yml
-
-    - include_tasks: tasks/symlinks.yml
-
-    - include_tasks: tasks/app.dock.yml
-
-      #- include_tasks: tasks/macos.yml
-
-    - include_tasks: tasks/app.app_store.yml
-    - include_tasks: tasks/app.dashboard.yml
-    - include_tasks: tasks/app.finder.yml
-    - include_tasks: tasks/app.itunes.yml
-    - include_tasks: tasks/app.launchpad.yml
-    - include_tasks: tasks/app.mail.yml
-    - include_tasks: tasks/app.mission_control.yml
-    - include_tasks: tasks/app.photos.yml
-      #- include_tasks: tasks/app.safari.yml
-    - include_tasks: tasks/app.screenshot.yml
-      #- include_tasks: tasks/app.terminal.yml
-    - include_tasks: tasks/app.time_machine.yml
-
-    - include_tasks: tasks/macos.airport.yml
-    - include_tasks: tasks/macos.animations.yml
-    - include_tasks: tasks/macos.appearance.yml
-    - include_tasks: tasks/macos.battery.yml
-    - include_tasks: tasks/macos.bluetooth.yml
-    - include_tasks: tasks/macos.date_time.yml
-    - include_tasks: tasks/macos.disk.yml
-    - include_tasks: tasks/macos.disk_images.yml
-    - include_tasks: tasks/macos.disk_utility.yml
-    - include_tasks: tasks/macos.display.yml
-    - include_tasks: tasks/macos.dns.yml
-    - include_tasks: tasks/macos.firevault.yml
-    - include_tasks: tasks/macos.firewall.yml
-    - include_tasks: tasks/macos.gatekeeper.yml
-    - include_tasks: tasks/macos.group.yml
-    - include_tasks: tasks/macos.hostname.yml
-    - include_tasks: tasks/macos.hotcorners.yml
-    - include_tasks: tasks/macos.info.yml
-    - include_tasks: tasks/macos.keyboard.yml
-    - include_tasks: tasks/macos.locale.yml
-    - include_tasks: tasks/macos.location.yml
-    - include_tasks: tasks/macos.lock.yml
-    - include_tasks: tasks/macos.login_items.yml
-    - include_tasks: tasks/macos.menubar.yml
-    - include_tasks: tasks/macos.mouse.yml
-    - include_tasks: tasks/macos.network.yml
-    - include_tasks: tasks/macos.nosleep.yml
-    - include_tasks: tasks/macos.notification_center.yml
-    - include_tasks: tasks/macos.ntp.yml
-    - include_tasks: tasks/macos.power.yml
-    - include_tasks: tasks/macos.printer.yml
-    - include_tasks: tasks/macos.restart.yml
-    - include_tasks: tasks/macos.safeboot.yml
-    - include_tasks: tasks/macos.screensaver.yml
-    - include_tasks: tasks/macos.scrolling.yml
-    - include_tasks: tasks/macos.service.yml
-    - include_tasks: tasks/macos.shutdown.yml
-    - include_tasks: tasks/macos.sleep.yml
-    - include_tasks: tasks/macos.sound.yml
-    - include_tasks: tasks/macos.spotlight.yml
-    - include_tasks: tasks/macos.system.yml
-    - include_tasks: tasks/macos.timezone.yml
-    - include_tasks: tasks/macos.tooltops.yml
-    - include_tasks: tasks/macos.trash.yml
-    - include_tasks: tasks/macos.update.yml
-    - include_tasks: tasks/macos.user.yml
-    - include_tasks: tasks/macos.volume.yml
-    - include_tasks: tasks/macos.vpn.yml
-    - include_tasks: tasks/macos.wallpaper.yml
-      #- include_tasks: tasks/macos.wifi.yml
-    - include_tasks: tasks/macos.windows.yml
-    - include_tasks: tasks/macos.yml
-
-    - include_tasks: tasks/cli.mackup.yml
-    - include_tasks: tasks/cli.nvim.yml
-    - include_tasks: tasks/cli.ssh.yml
-    - include_tasks: tasks/cli.zsh.yml
-
-    - include_tasks: tasks/repositories.yml
-
-
-      #    - include_tasks: tasks/brew.update.yml
+      #    - include_tasks: tasks/ansible-setup.yml
       #
-      #    - include_tasks: tasks/brew.clean.yml
+      #    - include_tasks: tasks/repositories.yml
       #
+      #    - include_tasks: tasks/symlinks.yml
+      #
+      #    - include_tasks: tasks/app.dock.yml
+      #
+      #      #- include_tasks: tasks/macos.yml
+
+      #      #- include_tasks: tasks/cli.mackup.yml
       #    - include_tasks: tasks/cli.nvim.yml
+      #    - include_tasks: tasks/cli.ssh.yml
+      #    - include_tasks: tasks/cli.zsh.yml
       #
-      #    - include_tasks: tasks/sudoers.yml
-      #      when: configure_sudoers
       #
-      #    - include_tasks: tasks/app.terminal.yml
-      #      when: configure_terminal
       #
-      #    - include_tasks: tasks/extra-packages.yml
-      #      tags: ['extra-packages']
-      #
-      #    - name: configure zsh
-      #      include_tasks: tasks/cli.zsh.yml
-      #      when: configure_zsh
-      #      tags: ['zsh']
-      #
-      #    - name: Run configured post-provision ansible task files.
-      #      include_tasks: "{{ outer_item }}"
-      #      loop_control:
-      #        loop_var: outer_item
-      #      with_fileglob: "{{ post_provision_tasks|default(omit) }}"
-      #
+      #      #    - include_tasks: tasks/brew.update.yml
+      #      #
+      #      #    - include_tasks: tasks/brew.clean.yml
+      #      #
+      #      #    - include_tasks: tasks/cli.nvim.yml
+      #      #
+      #      #    - include_tasks: tasks/sudoers.yml
+      #      #      when: configure_sudoers
+      #      #
+      #      #    - include_tasks: tasks/app.terminal.yml
+      #      #      when: configure_terminal
+      #      #
+      #      #    - include_tasks: tasks/extra-packages.yml
+      #      #      tags: ['extra-packages']
+      #      #
+      #      #    - name: configure zsh
+      #      #      include_tasks: tasks/cli.zsh.yml
+      #      #      when: configure_zsh
+      #      #      tags: ['zsh']
+      #      #
+      #      #    - name: Run configured post-provision ansible task files.
+      #      #      include_tasks: "{{ outer_item }}"
+      #      #      loop_control:
+      #      #        loop_var: outer_item
+      #      #      with_fileglob: "{{ post_provision_tasks|default(omit) }}"
+      #      #

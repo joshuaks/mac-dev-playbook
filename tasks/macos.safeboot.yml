@@ -1,5 +1,0 @@
-
-##m-cli: Safeboot #################################################
-#- name: Safeboot -
-#  command: "m {{ macos_configs. }}"
-

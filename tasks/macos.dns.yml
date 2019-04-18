@@ -1,5 +1,0 @@
-
-## m-cli: dns #################################################
-- name: DNS - flush (true/false)
-  command: "m dns flush"
-  when: macos_configs.dns.is_flush

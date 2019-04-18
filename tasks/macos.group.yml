@@ -1,5 +1,0 @@
-
-
-## m-cli: Group #################################################
-#- name: Group -
-#  command: "m {{ macos_configs. }}"

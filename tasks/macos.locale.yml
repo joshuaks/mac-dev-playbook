@@ -1,7 +1,0 @@
-
-
-
-## m-cli: Locale #################################################
-#- name: Locale -
-#  command: "m {{ macos_configs. }}"
-

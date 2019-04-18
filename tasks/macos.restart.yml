@@ -1,6 +1,0 @@
-
-## m-cli: Restart #################################################
-#- name: Restart -
-#  command: "m {{ macos_configs. }}"
-
-

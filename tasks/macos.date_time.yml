@@ -1,7 +1,0 @@
----
-
-## m-cli: date & time #################################################
-#- name: Date & Time -
-#  command: "m {{ macos_configs. }}"
-
-

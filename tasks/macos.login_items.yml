@@ -1,5 +1,0 @@
-
-## m-cli: Login Items #################################################
-#- name: Login Items -
-#  command: "m {{ macos_configs. }}"
-

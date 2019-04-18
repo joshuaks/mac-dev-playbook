@@ -1,5 +1,0 @@
-
-
-## m-cli: Shutdown #################################################
-#- name: Shutdown -
-#  command: "m {{ macos_configs. }}"

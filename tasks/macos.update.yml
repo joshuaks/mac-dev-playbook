@@ -1,8 +1,0 @@
-
-## m-cli: Update #################################################
-#- name: Update -
-#  command: "m {{ macos_configs. }}"
-- name: Updates - Is install all
-  command: "m update install all"
-  when: macos_configs.updates.is_install_all
-

@@ -1,4 +1,0 @@
-
-- name: Wifi - Is on
-  command: "m wifi {{ 'on' if macos_configs.wifi.is_on else 'off' }}"
-
