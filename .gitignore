@@ -2,6 +2,8 @@
 .DS_Store
 *.retry
 roles*
+roles/elliotweiser*
+roles/geerlingguy*
 _user_password
 #config.yml
 _sudo_password
