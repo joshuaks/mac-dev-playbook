@@ -1,0 +1,5 @@
+
+
+## m-cli: Screensaver #################################################
+#- name: Screensaver -
+#  command: "m {{ macos_configs. }}"

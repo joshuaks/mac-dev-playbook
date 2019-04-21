@@ -1,0 +1,14 @@
+
+
+## m-cli: Time Machine #################################################
+#- name: Time Machine -
+#  command: "m {{ macos_configs. }}"
+################################################################################
+## Time Machine                                                                #
+################################################################################
+- name: Time Machine - Prevent Time Machine from prompting to use new hard drives as backup volume
+  command: "defaults write com.apple.TimeMachine DoNotOfferNewDisksForBackup -bool {{ macos_configs.time_machine.is_do_not_prompt_to_use_new_disks }}"
+  #
+  #- name: Time Machine - Disable local Time Machine backups
+  #shell: hash tmutil &> /dev/null && sudo tmutil disablelocal
+

@@ -1,0 +1,9 @@
+---
+
+
+- name: symlink oh-my-tmux config
+  file:
+    src: ~/Documents/Developer/Repositories/oh-my-tmux.git/.tmux.conf
+    dest: "{{ lookup('env','HOME') }}/.tmux.conf"
+    state: link
+

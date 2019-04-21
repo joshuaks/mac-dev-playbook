@@ -1,0 +1,6 @@
+
+## m-cli: Mouse #################################################
+#- name: Mouse -
+#  command: "m {{ macos_configs. }}"
+
+

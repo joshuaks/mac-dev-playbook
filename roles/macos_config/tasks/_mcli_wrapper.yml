@@ -1,0 +1,7 @@
+
+
+#- name: wrapper
+- name: "{{ name }}"
+  command: "~/bin/m {{ module }} {{ parameter }} {{ value }}"
+  retries: 10
+  delay: 2

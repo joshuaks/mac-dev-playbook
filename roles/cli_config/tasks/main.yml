@@ -1,0 +1,6 @@
+
+- import_tasks: cli.mackup.yml
+- import_tasks: cli.nvim.yml
+- import_tasks: cli.ssh.yml
+- import_tasks: cli.zsh.yml
+

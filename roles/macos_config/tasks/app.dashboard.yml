@@ -1,0 +1,22 @@
+---
+
+## m-cli: dashboard #################################################
+#- name: Battery -
+#  command: "m {{ macos_configs. }}"
+#
+- import_tasks: ./_defaults_wrapper.yml
+  vars:
+    name: Dock - Disable Dashboard
+    module: com.apple.dashboard
+    parameter: mxc-disabled
+    value_type: bool
+    value: "{{ macos_configs.dock.is_disable_dashboard }}"
+
+- import_tasks: ./_defaults_wrapper.yml
+  vars:
+    name: Dock - Don’t show Dashboard as a Space
+    module: com.apple.dock
+    parameter: dashboard-in-overlay
+    value_type: bool
+    value: "{{ macos_configs.dock.is_show_dashboard_as_space }}"
+

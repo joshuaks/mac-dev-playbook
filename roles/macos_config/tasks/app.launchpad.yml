@@ -1,0 +1,9 @@
+
+
+
+## m-cli: Launchpad #################################################
+#- name: Launchpad -
+#  command: "m {{ macos_configs. }}"
+- name: Dock - Disable the Launchpad gesture (pinch with thumb and three fingers)
+  command: "defaults write com.apple.dock showLaunchpadGestureEnabled -int {{ 1 if macos_configs.dock.is_launchpad_gesture else 0 }}"
+

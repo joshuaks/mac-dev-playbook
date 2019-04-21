@@ -1,0 +1,35 @@
+---
+
+#- name: Execute op signin
+#  expect:
+#    command: op signin
+#    responses:
+#      "Enter the password for": "foobar"
+#
+
+- name: Sign in
+  shell: eval $(op signin)
+
+- name: Get secret keys
+  onepassword_facts:
+    search_terms: 
+      - name: me.id_rsa
+        field: document
+      - name: work.id_rsa
+        field: document
+  register: lookup_results
+  no_log: true   # Don't want to log the secrets to the console!
+
+- name: Write keys to disk
+  copy:
+    content: "{{ item.value.document }}\n"
+    dest: "~/.ssh/{{ item.key }}"
+    mode: "400"
+  with_items: "{{ lookup_results['ansible_facts']['onepassword'] | dict2items }}"
+  no_log: true   # Don't want to log the secrets to the console!
+
+- name: Generate and write public keys to disk
+  shell: "ssh-keygen -y -f ~/.ssh/{{ item.key }} > ~/.ssh/{{ item.key }}.pub"
+  with_items: "{{ lookup_results['ansible_facts']['onepassword'] | dict2items }}"
+  no_log: true   # Don't want to log the secrets to the console!
+

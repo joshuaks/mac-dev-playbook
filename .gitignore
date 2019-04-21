@@ -1,7 +1,6 @@
 *.vagrant
 .DS_Store
 *.retry
-roles*
 roles/elliotweiser*
 roles/geerlingguy*
 _user_password

@@ -1,0 +1,13 @@
+
+
+
+## m-cli: Firewall #################################################
+#- name: Firewall -
+#  command: "m {{ macos_configs. }}"
+- name: Firewall - Enable or disable
+  command: "m firewall {{ 'enable' if macos_configs.firewall.is_enable else 'disable' }}"
+
+
+## m-cli: Firewall #################################################
+#- name: Firewall -
+#  command: "m {{ macos_configs. }}"

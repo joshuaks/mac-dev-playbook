@@ -1,0 +1,53 @@
+###############################################################################
+# Mac App Store                                                               #
+###############################################################################
+
+- import_tasks: ./_defaults_wrapper.yml
+  vars:
+    name: Mac App Store - Enable the automatic update check
+    module: com.apple.SoftwareUpdate
+    parameter: AutomaticCheckEnabled
+    value_type: bool
+    value: "{{ macos_configs.app_store.is_auto_update_check }}"
+
+- import_tasks: ./_defaults_wrapper.yml
+  vars:
+    name: Mac App Store - Check for software updates daily, not just once per week
+    module: com.apple.SoftwareUpdate
+    parameter: ScheduleFrequency
+    value_type: int
+    value: "{{ macos_configs.app_store.is_check_for_updates_daily }}"
+
+- import_tasks: ./_defaults_wrapper.yml
+  vars:
+    name: Mac App Store - Download newly available updates in background
+    module: com.apple.SoftwareUpdate
+    parameter: AutomaticDownload 
+    value_type: int
+    value: "{{ macos_configs.app_store.is_download_updates_in_background }}"
+
+- import_tasks: ./_defaults_wrapper.yml
+  vars:
+    name: Mac App Store - Install System data files & security updates
+    module: com.apple.SoftwareUpdate
+    parameter: CriticalUpdateInstall
+    value_type: int
+    value: "{{ macos_configs.app_store.is_install_system_updates }}"
+
+
+- import_tasks: ./_defaults_wrapper.yml
+  vars:
+    name: Mac App Store - Automatically download apps purchased on other Macs
+    module: com.apple.SoftwareUpdate
+    parameter: ConfigDataInstall
+    value_type: int
+    value: "{{ macos_configs.app_store.is_download_purchases_from_other_macs }}"
+
+
+- import_tasks: ./_defaults_wrapper.yml
+  vars:
+    name: Mac App Store - Turn on app auto-update
+    module: com.apple.commerce
+    parameter: AutoUpdate
+    value_type: bool
+    value: "{{ macos_configs.app_store.is_app_auto_update }}"

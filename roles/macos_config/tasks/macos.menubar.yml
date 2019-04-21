@@ -1,0 +1,5 @@
+
+
+## m-cli: Menubar #################################################
+#- name: Menubar -
+#  command: "m {{ macos_configs. }}"

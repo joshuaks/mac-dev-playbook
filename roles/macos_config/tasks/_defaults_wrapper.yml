@@ -1,0 +1,13 @@
+
+#- import_tasks: ./_defaults_wrapper.yml
+#  vars:
+#    name: 
+#    module: 
+#    parameter: 
+#    value_type: 
+#    value: 
+
+- name: "{{ name }}"
+  command: "defaults write {{ module }} {{ parameter }} -{{ value_type }} {{ value }}"
+  retries: 10
+  delay: 2

@@ -1,0 +1,106 @@
+
+################################################################################
+## Safari & WebKit                                                             #
+################################################################################
+- name: Privacy - Universal search
+  command: "defaults write com.apple.Safari UniversalSearchEnabled -bool {{ macos_configs.privacy.is_universal_search }}" 
+
+- name: Privacy - Supress search suggestions
+  command: "defaults write com.apple.Safari SuppressSearchSuggestions -bool {{ macos_configs.privacy.is_suppress_search_suggestions }}" 
+
+  #    # Press Tab to highlight each item on a web page
+  #    # defaults write com.apple.Safari WebKitTabToLinksPreferenceKey -bool true
+  #    # defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2TabsToLinks -bool true
+  #
+- name: Safari - Show the full URL in the address bar
+  command: "defaults write com.apple.Safari ShowFullURLInSmartSearchField -bool {{ macos_configs.safari.is_show_full_address }}"
+
+  #    # Set Safari’s home page to `about:blank` for faster loading
+  #    #defaults write com.apple.Safari HomePage -string "about:blank"
+  #
+- name: Safari - Prevent Safari from opening ‘safe’ files automatically after downloading
+  command: "defaults write com.apple.Safari AutoOpenSafeDownloads -bool {{ macos_configs.safari.is_open_safe_files }}"
+
+  #  #    # Allow hitting the Backspace key to go to the previous page in history
+  #  #    # defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2BackspaceKeyNavigationEnabled -bool true
+  #  #
+- name: Safari - Hide Safari’s bookmarks bar by default
+  command: "defaults write com.apple.Safari ShowFavoritesBar -bool {{ macos_configs.safari.is_show_favorites_bar }}"
+
+- name: Safari - Hide Safari’s sidebar in Top Sites
+  command: "defaults write com.apple.Safari ShowSidebarInTopSites -bool {{ macos_configs.safari.is_show_sidebar_in_topsites }}"
+
+  #    # Disable Safari’s thumbnail cache for History and Top Sites
+  #    # defaults write com.apple.Safari DebugSnapshotsUpdatePolicy -int 2
+  #
+- name: Safari - Enable Safari’s debug menu
+  command: "defaults write com.apple.Safari IncludeInternalDebugMenu -bool {{ macos_configs.safari.is_debug_menu }}"
+
+- name: Safari - Make Safari’s search banners default to Contains instead of Starts With
+  command: "defaults write com.apple.Safari FindOnPageMatchesWordStartsOnly -bool {{ macos_configs.safari.is_find_on_page_matches_word_starts_only }}"
+
+- name: Safari - Remove useless icons from Safari’s bookmarks bar
+  command: defaults write com.apple.Safari ProxiesInBookmarksBar "()"
+  when: macos_configs.safari.is_remove_default_bookmarks
+
+#    # Enable the Develop menu and the Web Inspector in Safari
+- name: Safari - enable develop menu
+  command: "defaults write com.apple.Safari IncludeDevelopMenu -bool {{ macos_configs.safari.is_develop_menu }}"
+
+  #  #  #defaults write com.apple.Safari WebKitDeveloperExtrasEnabledPreferenceKey -bool true
+  #  #  #defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2DeveloperExtrasEnabled -bool true
+  #  #
+  #  #    # Add a context menu item for showing the Web Inspector in web views
+  #  #    #defaults write NSGlobalDomain WebKitDeveloperExtras -bool true
+  #  #
+  #  #    # Enable continuous spellchecking
+  #  #    #defaults write com.apple.Safari WebContinuousSpellCheckingEnabled -bool true
+  #  #    # Disable auto-correct
+  #  #    #defaults write com.apple.Safari WebAutomaticSpellingCorrectionEnabled -bool false
+  #  #
+  #     # Disable AutoFill
+- name: Safari - Disable autofill - Contacts
+  command: "defaults write com.apple.Safari AutoFillFromAddressBook -bool {{ macos_configs.safari.is_autofill.contacts }}"
+
+- name: Safari - Disable autofill - Passwords
+  command: "defaults write com.apple.Safari AutoFillPasswords -bool {{ macos_configs.safari.is_autofill.passwords }}"
+
+- name: Safari - Disable autofill - credit card
+  command: "defaults write com.apple.Safari AutoFillCreditCardData -bool {{ macos_configs.safari.is_autofill.credit_cards }}"
+
+- name: Safari - Disable autofill - misc forms
+  command: "defaults write com.apple.Safari AutoFillMiscellaneousForms -bool {{ macos_configs.safari.is_autofill.misc_forms }}"
+
+- name: Safari - Warn about fraudulent websites
+  command: "defaults write com.apple.Safari WarnAboutFraudulentWebsites -bool {{ macos_configs.safari.is_warn_about_fraudulent_sites }}"
+
+- name: Safari - Disable (webkit) plug-ins
+  command: defaults write com.apple.Safari WebKitPluginsEnabled -bool {{ macos_configs.safari.is_plugins }}
+
+- name: Safari - Disable (webkit2) plug-ins
+  command: defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2PluginsEnabled -bool {{ macos_configs.safari.is_plugins }}
+
+- name: Safari - Disable (webkit) Java
+  command: defaults write com.apple.Safari WebKitJavaEnabled -bool {{ macos_configs.safari.is_java }}
+
+- name: Safari - Disable (webkit2) Java
+  command: defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2JavaEnabled -bool {{ macos_configs.safari.is_java }}
+
+- name: Safari - Block pop-up windows
+  shell: | 
+      defaults write com.apple.Safari WebKitJavaScriptCanOpenWindowsAutomatically -bool {{ macos_configs.safari.is_block_popups }};
+      defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2JavaScriptCanOpenWindowsAutomatically -bool {{ macos_configs.safari.is_block_popups }};
+
+- name: Safari - Disable auto-playing video
+  shell: |
+    defaults write com.apple.Safari WebKitMediaPlaybackAllowsInline -bool {{ macos_configs.safari.is_autoplay_videos }} \
+    && defaults write com.apple.SafariTechnologyPreview WebKitMediaPlaybackAllowsInline -bool {{ macos_configs.safari.is_autoplay_videos }} \
+    && defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2AllowsInlineMediaPlayback -bool {{ macos_configs.safari.is_autoplay_videos }} \
+    && defaults write com.apple.SafariTechnologyPreview com.apple.Safari.ContentPageGroupIdentifier.WebKit2AllowsInlineMediaPlayback -bool {{ macos_configs.safari.is_autoplay_videos }}
+
+- name: Safari - Enable "Do Not Track"
+  command: "defaults write com.apple.Safari SendDoNotTrackHTTPHeader -bool {{ macos_configs.safari.is_do_not_track }}"
+
+- name: Safari - Update extensions automatically
+  command: "defaults write com.apple.Safari InstallExtensionUpdatesAutomatically -bool {{ macos_configs.safari.is_update_extensions_automatically }}"
+

@@ -1,0 +1,10 @@
+---
+
+#- name: Copy .mackup.cfg into place
+#  copy:
+#    src: ~/iCloud Drive/Mackup/mackup_mm_tbmbp_13/.mackup.cfg
+#    dest: "${HOME}/.mackup.cfg"
+#
+#- name: Restore configurations
+#  shell: yes | mackup restore
+
