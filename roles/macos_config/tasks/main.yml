@@ -1,64 +1,64 @@
 
 - import_tasks: app.app_store.yml
 - import_tasks: app.dashboard.yml
-- import_tasks: app.dock.yml
-- import_tasks: app.finder.yml
-- import_tasks: app.itunes.yml
-- import_tasks: app.launchpad.yml
-- import_tasks: app.mail.yml
-- import_tasks: app.mission_control.yml
-- import_tasks: app.photos.yml
-- import_tasks: app.safari.yml
-- import_tasks: app.screenshot.yml
-- import_tasks: app.terminal.yml
-- import_tasks: app.time_machine.yml
-- import_tasks: macos.airport.yml
-- import_tasks: macos.animations.yml
-- import_tasks: macos.appearance.yml
-- import_tasks: macos.date_time.yml
-- import_tasks: macos.disk.yml
-- import_tasks: macos.disk_images.yml
-- import_tasks: macos.disk_utility.yml
-- import_tasks: macos.display.yml
-- import_tasks: macos.dns.yml
-- import_tasks: macos.firevault.yml
-- import_tasks: macos.firewall.yml
-- import_tasks: macos.gatekeeper.yml
-- import_tasks: macos.group.yml
-- import_tasks: macos.hostname.yml
-- import_tasks: macos.hotcorners.yml
-- import_tasks: macos.info.yml
-- import_tasks: macos.keyboard.yml
-- import_tasks: macos.locale.yml
-- import_tasks: macos.location.yml
-- import_tasks: macos.lock.yml
-- import_tasks: macos.login_items.yml
-- import_tasks: macos.menubar.yml
-- import_tasks: macos.mouse.yml
-- import_tasks: macos.network.yml
-- import_tasks: macos.nosleep.yml
-- import_tasks: macos.notification_center.yml
-- import_tasks: macos.ntp.yml
-- import_tasks: macos.power.yml
-- import_tasks: macos.printer.yml
-- import_tasks: macos.restart.yml
-- import_tasks: macos.safeboot.yml
-- import_tasks: macos.screensaver.yml
-- import_tasks: macos.scrolling.yml
-- import_tasks: macos.service.yml
-- import_tasks: macos.shutdown.yml
-- import_tasks: macos.sleep.yml
-- import_tasks: macos.sound.yml
-- import_tasks: macos.spotlight.yml
-- import_tasks: macos.system.yml
-- import_tasks: macos.timezone.yml
-- import_tasks: macos.tooltops.yml
-- import_tasks: macos.trash.yml
-- import_tasks: macos.update.yml
-- import_tasks: macos.user.yml
-- import_tasks: macos.volume.yml
-- import_tasks: macos.vpn.yml
-- import_tasks: macos.wallpaper.yml
-- import_tasks: macos.wifi.yml
-- import_tasks: macos.windows.yml
-- import_tasks: macos.yml
+  #- import_tasks: app.dock.yml
+  #- import_tasks: app.finder.yml
+  #- import_tasks: app.itunes.yml
+  #- import_tasks: app.launchpad.yml
+  #- import_tasks: app.mail.yml
+  #- import_tasks: app.mission_control.yml
+  #- import_tasks: app.photos.yml
+  #- import_tasks: app.safari.yml
+  #- import_tasks: app.screenshot.yml
+  #- import_tasks: app.terminal.yml
+  #- import_tasks: app.time_machine.yml
+  #- import_tasks: macos.airport.yml
+  #- import_tasks: macos.animations.yml
+  #- import_tasks: macos.appearance.yml
+  #- import_tasks: macos.date_time.yml
+  #- import_tasks: macos.disk.yml
+  #- import_tasks: macos.disk_images.yml
+  #- import_tasks: macos.disk_utility.yml
+  #- import_tasks: macos.display.yml
+  #- import_tasks: macos.dns.yml
+  #- import_tasks: macos.firevault.yml
+  #- import_tasks: macos.firewall.yml
+  #- import_tasks: macos.gatekeeper.yml
+  #- import_tasks: macos.group.yml
+  #- import_tasks: macos.hostname.yml
+  #- import_tasks: macos.hotcorners.yml
+  #- import_tasks: macos.info.yml
+  #- import_tasks: macos.keyboard.yml
+  #- import_tasks: macos.locale.yml
+  #- import_tasks: macos.location.yml
+  #- import_tasks: macos.lock.yml
+  #- import_tasks: macos.login_items.yml
+  #- import_tasks: macos.menubar.yml
+  #- import_tasks: macos.mouse.yml
+  #- import_tasks: macos.network.yml
+  #- import_tasks: macos.nosleep.yml
+  #- import_tasks: macos.notification_center.yml
+  #- import_tasks: macos.ntp.yml
+  #- import_tasks: macos.power.yml
+  #- import_tasks: macos.printer.yml
+  #- import_tasks: macos.restart.yml
+  #- import_tasks: macos.safeboot.yml
+  #- import_tasks: macos.screensaver.yml
+  #- import_tasks: macos.scrolling.yml
+  #- import_tasks: macos.service.yml
+  #- import_tasks: macos.shutdown.yml
+  #- import_tasks: macos.sleep.yml
+  #- import_tasks: macos.sound.yml
+  #- import_tasks: macos.spotlight.yml
+  #- import_tasks: macos.system.yml
+  #- import_tasks: macos.timezone.yml
+  #- import_tasks: macos.tooltops.yml
+  #- import_tasks: macos.trash.yml
+  #- import_tasks: macos.update.yml
+  #- import_tasks: macos.user.yml
+  #- import_tasks: macos.volume.yml
+  #- import_tasks: macos.vpn.yml
+  #- import_tasks: macos.wallpaper.yml
+  #- import_tasks: macos.wifi.yml
+  #- import_tasks: macos.windows.yml
+  #- import_tasks: macos.yml

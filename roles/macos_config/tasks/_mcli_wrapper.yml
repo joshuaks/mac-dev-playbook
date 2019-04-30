@@ -5,3 +5,5 @@
   command: "~/bin/m {{ module }} {{ parameter }} {{ value }}"
   retries: 10
   delay: 2
+  until: result.rc == 0
+  when: value is defined

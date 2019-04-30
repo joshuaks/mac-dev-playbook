@@ -12,9 +12,9 @@
       tags: ['always']
 
   roles:
-    - role: geerlingguy.homebrew
-      when: configure_homebrew
-      tags: ['homebrew']
+      #    - role: geerlingguy.homebrew
+      #      when: configure_homebrew
+      #      tags: ['homebrew']
     - role: geerlingguy.dotfiles
       when: configure_dotfiles
       tags: ['dotfiles']

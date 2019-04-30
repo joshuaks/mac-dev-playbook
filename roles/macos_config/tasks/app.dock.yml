@@ -14,70 +14,101 @@
   when: item.pos is defined
   with_items: "{{ dockitems_to_persist }}"
 
-- name: Dock - Show delay
-  command: "m dock showdelay {{ macos_configs.dock.show_delay }}"
-  when: macos_configs.dock.show_delay is defined
-  retries: 10
-  delay: 2
-  register: result
-  until: result.rc == 0
+- import_tasks: ./_mcli_wrapper.yml
+  vars:
+    name: Dock - Show delay
+    module: dock
+    parameter: showdelay
+    value: "{{ macos_configs.dock.show_delay }}"
 
-- name: Dock - Show or hide
-  command: "m dock autohide {{ 'YES' if macos_configs.dock.is_autohide else 'NO' }}"
-  retries: 10
-  delay: 2
-  register: result
-  until: result.rc == 0
+- import_tasks: ./_mcli_wrapper.yml
+  vars:
+    name: Dock - Show or hide
+    module: dock
+    parameter: autohide
+    value: "{{ 'YES' if macos_configs.dock.is_autohide else 'NO' }}"
 
-- name: Dock - Enable or disable magnification
-  command: "m dock magnification {{ 'YES' if macos_configs.dock.is_magnification else 'NO' }}"
-  retries: 10
-  delay: 2
-  register: result
-  until: result.rc == 0
+- import_tasks: ./_mcli_wrapper.yml
+  vars:
+    name: Dock - Enable or disable magnification
+    module: dock
+    parameter: magnification
+    value: "{{ 'YES' if macos_configs.dock.is_magnification else 'NO' }}"
 
-- name: Dock - Set position (BOTTOM/LEFT/RIGHT)
-  command: "m dock position {{ macos_configs.dock.position }}"
-  retries: 10
-  delay: 2
-  register: result
-  until: result.rc == 0
+- import_tasks: ./_mcli_wrapper.yml
+  vars:
+    name: Dock - Set position (BOTTOM/LEFT/RIGHT)
+    module: dock
+    parameter: position
+    value: "{{ macos_configs.dock.position }}"
 
-- name: Dock - Add blank space
-  command: m dock addblankspace
-  when: macos_configs.dock.is_add_blank_space
-  retries: 10
-  delay: 2
-  register: result
-  until: result.rc == 0
+- import_tasks: ./_mcli_wrapper.yml
+  vars:
+    name: Dock - Add blank space
+    module: dock
+    parameter: addblankspace
+    value: "{{ macos_configs.dock.is_add_blank_space }}"
 
-- name: Dock - Add recent items
-  command: m dock addrecentitems
-  when: macos_configs.dock.is_add_recent_items
-  retries: 10
-  delay: 2
-  register: result
-  until: result.rc == 0
+- import_tasks: ./_mcli_wrapper.yml
+  vars:
+    name: Dock - Add recent items
+    module: dock
+    parameter: addrecentitems
+    value: "{{ macos_configs.dock.is_add_recent_items }}"
 
-- name: Dock - Set icon size
-  command: "defaults write com.apple.dock tilesize -int {{ macos_configs.dock.icon_size }}"
-  when: macos_configs.dock.icon_size is defined
+- import_tasks: ./_defaults_wrapper.yml
+  vars:
+    name: Dock - Set icon size
+    module: com.apple.dock
+    parameter: tilesize
+    value_type: int
+    value: "{{ macos_configs.dock.icon_size }}"
 
-- name: Dock - Change minimize/maximize window effect
-  command: "defaults write com.apple.dock mineffect -string '{{ macos_configs.dock.minimize_effect }}'"
+- import_tasks: ./_defaults_wrapper.yml
+  vars:
+    name: Dock - Set icon size
+    module: com.apple.dock
+    parameter: mineffect
+    value_type: string
+    value: "{{ macos_configs.dock.minimize_effect }}"
 
-- name: Dock - Minimize windows into their application’s icon
-  command: "defaults write com.apple.dock minimize-to-application -bool {{ macos_configs.dock.is_minimize_to_app_icon }}"
+- import_tasks: ./_defaults_wrapper.yml
+  vars:
+    name: Dock - Set icon size
+    module: com.apple.dock
+    parameter: minimize-to-application
+    value_type: bool
+    value: "{{ macos_configs.dock.is_minimize_to_app_icon }}"
 
-- name: Dock - Enable spring loading for all items
-  command: "defaults write com.apple.dock enable-spring-load-actions-on-all-items -bool {{ macos_configs.dock.is_springload }}"
 
-- name: Dock - Show indicator lights for open applications
-  command: "defaults write com.apple.dock show-process-indicators -bool {{ macos_configs.dock.is_show_indicator_lights }}"
+- import_tasks: ./_defaults_wrapper.yml
+  vars:
+    name: Dock - Enable spring loading for all items
+    module: com.apple.dock
+    parameter: enable-spring-load-applications-on-all-items
+    value_type: bool
+    value: "{{ macos_configs.dock.is_springload }}"
 
-- name: Dock - Don’t animate opening applications from the Dock
-  command: "defaults write com.apple.dock launchanim -bool {{ macos_configs.dock.is_animate_opening_applications }}"
+- import_tasks: ./_defaults_wrapper.yml
+  vars:
+    name: Dock - Show indicator lights for open application
+    module: com.apple.dock
+    parameter: show-progress-indicators
+    value_type: bool
+    value: "{{ macos_configs.dock.is_show_indicator_lights }}"
 
-- name: Dock - Make Dock icons of hidden applications translucent
-  command: "defaults write com.apple.dock showhidden -bool {{ macos_configs.dock.is_hidden_apps_translucent }}"
+- import_tasks: ./_defaults_wrapper.yml
+  vars:
+    name: Dock - Don’t animate opening applications from the Dock
+    module: com.apple.dock
+    parameter: launchanim
+    value_type: bool
+    value: "{{ macos_configs.dock.is_animate_opening_applications }}"
 
+- import_tasks: ./_defaults_wrapper.yml
+  vars:
+    name: Dock - Make Dock icons of hidden applications translucent
+    module: com.apple.dock
+    parameter: showhidden
+    value_type: bool
+    value: "{{ macos_configs.dock.is_hidden_apps_translucent }}"
